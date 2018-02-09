@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example03.BasicCap", "Examples\Example3.BasicCap\Example03.BasicCap.csproj", "{2B5462B9-068B-46E8-B139-E3B9211A48B1}"
 EndProject
@@ -56,6 +56,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Libs\packetnet\Test\Test.csproj", "{D1FEC3AA-A58B-4E14-AC50-5008E97D1BBC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{DAC8304C-DDEF-4B1F-81BA-476A2CC9A80C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PacketDotNet.Interface", "Libs\packetnet\PacketDotNet.Interface\PacketDotNet.Interface.csproj", "{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -326,6 +328,18 @@ Global
 		{D1FEC3AA-A58B-4E14-AC50-5008E97D1BBC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D1FEC3AA-A58B-4E14-AC50-5008E97D1BBC}.Release|x86.ActiveCfg = Release|Any CPU
 		{D1FEC3AA-A58B-4E14-AC50-5008E97D1BBC}.Release|x86.Build.0 = Release|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Debug|x86.Build.0 = Debug|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Release|x86.ActiveCfg = Release|Any CPU
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -354,6 +368,7 @@ Global
 		{91ED0828-B374-479C-9EF7-B1924754C3CD} = {DAC8304C-DDEF-4B1F-81BA-476A2CC9A80C}
 		{55ABBA4C-AAF9-4726-A592-0C92436CEC92} = {EBFA0D8F-E128-4CEE-87A3-9A590007E5CD}
 		{D1FEC3AA-A58B-4E14-AC50-5008E97D1BBC} = {EBFA0D8F-E128-4CEE-87A3-9A590007E5CD}
+		{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7} = {EBFA0D8F-E128-4CEE-87A3-9A590007E5CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B948DD9-3C5A-47E7-8B43-0D12306D2D19}

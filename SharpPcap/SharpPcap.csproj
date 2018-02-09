@@ -55,6 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Libs\packetnet\PacketDotNet.Interface\PacketDotNet.Interface.csproj" />
     <ProjectReference Include="..\Libs\packetnet\PacketDotNet\PacketDotNet.csproj" />
   </ItemGroup>
 
@@ -83,6 +84,15 @@
     <Compile Update="WinPcap\StatisticsModePacket.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
+      <Version>2.0.0</Version>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
