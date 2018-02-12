@@ -4,10 +4,12 @@ environment:
   configuration: Release
 before_build:
 - cmd: >-
+    git submodule update --init --recursive
+    dotnet restore
     nuget restore
-
     cinst WinPcap
 build:
+  project: SharpPcap.sln
   publish_nuget: true
   publish_nuget_symbols: true
   include_nuget_references: true
