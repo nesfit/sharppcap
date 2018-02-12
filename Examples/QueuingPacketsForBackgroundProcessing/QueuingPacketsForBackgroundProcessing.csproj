@@ -34,9 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="PacketDotNet">
-      <HintPath>..\..\Libs\packetnet\PacketDotNet\bin\Debug\PacketDotNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -45,6 +42,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Libs\packetnet\PacketDotNet\PacketDotNet.csproj">
+      <Project>{55abba4c-aaf9-4726-a592-0c92436cec92}</Project>
+      <Name>PacketDotNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharpPcap\SharpPcap.csproj">
       <Project>{23f75e13-8f57-4659-b007-e6b7ed849f3e}</Project>
       <Name>SharpPcap</Name>
