@@ -74,7 +74,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="PacketDotNet">
-      <HintPath>..\..\Libs\packetnet\PacketDotNet\bin\Debug\PacketDotNet.dll</HintPath>
+      <HintPath>..\..\Libs\packetnet\PacketDotNet\bin\Debug\netstandard2.0\PacketDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +115,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Libs\packetnet\PacketDotNet.Interface\PacketDotNet.Interface.csproj">
+      <Project>{1ebfb0fd-1555-40c9-a912-0ddca8c92ec7}</Project>
+      <Name>PacketDotNet.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharpPcap\SharpPcap.csproj">
       <Project>{23f75e13-8f57-4659-b007-e6b7ed849f3e}</Project>
       <Name>SharpPcap</Name>

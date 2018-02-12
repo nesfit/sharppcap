@@ -68,6 +68,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Libs\packetnet\PacketDotNet.Interface\PacketDotNet.Interface.csproj">
+      <Project>{1ebfb0fd-1555-40c9-a912-0ddca8c92ec7}</Project>
+      <Name>PacketDotNet.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libs\packetnet\PacketDotNet\PacketDotNet.csproj">
       <Project>{55abba4c-aaf9-4726-a592-0c92436cec92}</Project>
       <Name>PacketDotNet</Name>
