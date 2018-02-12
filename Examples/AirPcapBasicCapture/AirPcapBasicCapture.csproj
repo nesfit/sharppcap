@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\packetnet\PacketDotNet.Interface\PacketDotNet.Interface.csproj">
-      <Project>{1EBFB0FD-1555-40C9-A912-0DDCA8C92EC7}</Project>
+      <Project>{1ebfb0fd-1555-40c9-a912-0ddca8c92ec7}</Project>
       <Name>PacketDotNet.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libs\packetnet\PacketDotNet\PacketDotNet.csproj">
