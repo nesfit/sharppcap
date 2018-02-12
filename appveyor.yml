@@ -1,12 +1,16 @@
 version: 1.0.{build}
 image: Visual Studio 2017
-environment:
-  configuration: Release
+platform: Any CPU
+init:
+- cmd: 
 before_build:
 - cmd: >-
     git submodule update --init --recursive
+
     dotnet restore
+
     nuget restore
+
     cinst WinPcap
 build:
   project: SharpPcap.sln
