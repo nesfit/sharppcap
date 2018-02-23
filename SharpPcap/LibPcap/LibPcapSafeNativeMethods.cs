@@ -39,11 +39,11 @@ namespace SharpPcap.LibPcap
         //       This file is called $assembly_name.dll.config and is placed in the
         //       same directory as the assembly
         //       See http://www.mono-project.com/Interop_with_Native_Libraries#Library_Names
-        private const string PCAP_DLL = "wpcap";
+        private const String PCAP_DLL = "wpcap";
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool SetDllDirectory(string lpPathName);
+        static extern Boolean SetDllDirectory(String lpPathName);
 
         static LibPcapSafeNativeMethods()
         {
@@ -55,23 +55,23 @@ namespace SharpPcap.LibPcap
         }
 
         [DllImport(PCAP_DLL, CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_findalldevs(ref IntPtr /* pcap_if_t** */ alldevs, StringBuilder /* char* */ errbuf);
+        internal extern static Int32 pcap_findalldevs(ref IntPtr /* pcap_if_t** */ alldevs, StringBuilder /* char* */ errbuf);
 
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         internal extern static void pcap_freealldevs(IntPtr /* pcap_if_t * */ alldevs);
 
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr /* pcap_t* */ pcap_create(string dev, StringBuilder errbuf);
+        internal extern static IntPtr /* pcap_t* */ pcap_create(String dev, StringBuilder errbuf);
 
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr /* pcap_t* */ pcap_open_offline( string/*const char* */ fname, StringBuilder/* char* */ errbuf );
+        internal extern static IntPtr /* pcap_t* */ pcap_open_offline( String/*const char* */ fname, StringBuilder/* char* */ errbuf );
 
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr /* pcap_t* */ pcap_open_dead(int linktype, int snaplen);
+        internal extern static IntPtr /* pcap_t* */ pcap_open_dead(Int32 linktype, Int32 snaplen);
 
         /// <summary>Open a file to write packets. </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr /*pcap_dumper_t * */ pcap_dump_open (IntPtr /*pcap_t * */adaptHandle, string /*const char * */fname);
+        internal extern static IntPtr /*pcap_dumper_t * */ pcap_dump_open (IntPtr /*pcap_t * */adaptHandle, String /*const char * */fname);
 
         /// <summary>
         ///  Save a packet to disk.  
@@ -87,7 +87,7 @@ namespace SharpPcap.LibPcap
         /// To avoid callback, this returns one packet at a time
         /// </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_next_ex(IntPtr /* pcap_t* */ adaptHandle, ref IntPtr /* **pkt_header */ header , ref IntPtr  data);
+        internal extern static Int32 pcap_next_ex(IntPtr /* pcap_t* */ adaptHandle, ref IntPtr /* **pkt_header */ header , ref IntPtr  data);
 
         /// <summary>
         /// Send a raw packet.<br/>
@@ -100,16 +100,16 @@ namespace SharpPcap.LibPcap
         /// <param name="size">the dimension of the buffer pointed by data</param>
         /// <returns>0 if the packet is succesfully sent, -1 otherwise.</returns>
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_sendpacket(IntPtr /* pcap_t* */ adaptHandle, IntPtr  data, int size);
+        internal extern static Int32 pcap_sendpacket(IntPtr /* pcap_t* */ adaptHandle, IntPtr  data, Int32 size);
 
         /// <summary>
         /// Compile a packet filter, converting an high level filtering expression (see Filtering expression syntax) in a program that can be interpreted by the kernel-level filtering engine. 
         /// </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_compile (IntPtr /* pcap_t* */ adaptHandle, IntPtr /*bpf_program **/fp, string /*char * */str, int optimize, UInt32 netmask);
+        internal extern static Int32 pcap_compile (IntPtr /* pcap_t* */ adaptHandle, IntPtr /*bpf_program **/fp, String /*char * */str, Int32 optimize, UInt32 netmask);
 
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int  pcap_setfilter (IntPtr /* pcap_t* */ adaptHandle, IntPtr /*bpf_program **/fp);
+        internal extern static Int32  pcap_setfilter (IntPtr /* pcap_t* */ adaptHandle, IntPtr /*bpf_program **/fp);
 
         /// <summary>
         /// Free up allocated memory pointed to by a bpf_program struct generated by pcap_compile()
@@ -135,7 +135,7 @@ namespace SharpPcap.LibPcap
         /// written with pcap_dump() but not yet written to the 'savefile' will be written. 
         /// -1 is returned on error, 0 on success. </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_dump_flush (IntPtr /*pcap_dumper_t **/p);
+        internal extern static Int32 pcap_dump_flush (IntPtr /*pcap_dumper_t **/p);
             
         /// <summary>Closes a savefile. </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
@@ -143,25 +143,25 @@ namespace SharpPcap.LibPcap
                 
         /// <summary> Return the link layer of an adapter. </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_datalink(IntPtr /* pcap_t* */ adaptHandle);
+        internal extern static Int32 pcap_datalink(IntPtr /* pcap_t* */ adaptHandle);
 
         /// <summary>
         /// Set nonblocking mode. pcap_loop() and pcap_next() doesnt work in  nonblocking mode!
         /// </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_setnonblock(IntPtr /* pcap_if_t** */ adaptHandle, int nonblock, StringBuilder /* char* */ errbuf);
+        internal extern static Int32 pcap_setnonblock(IntPtr /* pcap_if_t** */ adaptHandle, Int32 nonblock, StringBuilder /* char* */ errbuf);
 
         /// <summary>
         /// Get nonblocking mode, returns allways 0 for savefiles.
         /// </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_getnonblock(IntPtr /* pcap_if_t** */ adaptHandle, StringBuilder /* char* */ errbuf);
+        internal extern static Int32 pcap_getnonblock(IntPtr /* pcap_if_t** */ adaptHandle, StringBuilder /* char* */ errbuf);
 
         /// <summary>
         /// Read packets until cnt packets are processed or an error occurs.
         /// </summary>
         [DllImport(PCAP_DLL, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_dispatch(IntPtr /* pcap_t* */ adaptHandle, int count, pcap_handler callback, IntPtr ptr);
+        internal extern static Int32 pcap_dispatch(IntPtr /* pcap_t* */ adaptHandle, Int32 count, pcap_handler callback, IntPtr ptr);
 
         /// <summary>
         /// The delegate declaration for PcapHandler requires an UnmanagedFunctionPointer attribute.
@@ -180,7 +180,7 @@ namespace SharpPcap.LibPcap
         /// A <see cref="System.Int32"/>
         /// </returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_get_selectable_fd(IntPtr /* pcap_t* */ adaptHandle);
+        internal extern static Int32 pcap_get_selectable_fd(IntPtr /* pcap_t* */ adaptHandle);
 
         /// <summary>
         /// Fills in the pcap_stat structure passed to the function
@@ -196,7 +196,7 @@ namespace SharpPcap.LibPcap
         /// A <see cref="System.Int32"/>
         /// </returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_stats(IntPtr /* pcap_t* */ adapter, IntPtr /* struct pcap_stat* */ stat);
+        internal extern static Int32 pcap_stats(IntPtr /* pcap_t* */ adapter, IntPtr /* struct pcap_stat* */ stat);
 
         /// <summary>
         /// Returns the snapshot length
@@ -208,7 +208,7 @@ namespace SharpPcap.LibPcap
         /// A <see cref="System.Int32"/>
         /// </returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_snapshot(IntPtr /* pcap_t... */ adapter);
+        internal extern static Int32 pcap_snapshot(IntPtr /* pcap_t... */ adapter);
 
         /// <summary>
         /// pcap_set_rfmon() sets whether monitor mode should be set on a capture handle when the handle is activated.
@@ -218,7 +218,7 @@ namespace SharpPcap.LibPcap
         /// <param name="rfmon">A <see cref="System.Int32"/></param>
         /// <returns>Returns 0 on success or PCAP_ERROR_ACTIVATED if called on a capture handle that has been activated.</returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_set_rfmon(IntPtr /* pcap_t* */ p, int rfmon);
+        internal extern static Int32 pcap_set_rfmon(IntPtr /* pcap_t* */ p, Int32 rfmon);
 
         /// <summary>
         /// pcap_set_snaplen() sets the snapshot length to be used on a capture handle when the handle is activated to snaplen.  
@@ -227,7 +227,7 @@ namespace SharpPcap.LibPcap
         /// <param name="snaplen">A <see cref="System.Int32"/></param>
         /// <returns>Returns 0 on success or PCAP_ERROR_ACTIVATED if called on a capture handle that has been activated.</returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_set_snaplen(IntPtr /* pcap_t* */ p, int snaplen);
+        internal extern static Int32 pcap_set_snaplen(IntPtr /* pcap_t* */ p, Int32 snaplen);
 
         /// <summary>
         /// pcap_set_promisc() sets whether promiscuous mode should be set on a capture handle when the handle is activated. 
@@ -237,7 +237,7 @@ namespace SharpPcap.LibPcap
         /// <param name="promisc">A <see cref="System.Int32"/></param>
         /// <returns>Returns 0 on success or PCAP_ERROR_ACTIVATED if called on a capture handle that has been activated.</returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_set_promisc(IntPtr /* pcap_t* */ p, int promisc);
+        internal extern static Int32 pcap_set_promisc(IntPtr /* pcap_t* */ p, Int32 promisc);
 
         /// <summary>
         /// pcap_set_timeout() sets the packet buffer timeout that will be used on a capture handle when the handle is activated to to_ms, which is in units of milliseconds.
@@ -246,7 +246,7 @@ namespace SharpPcap.LibPcap
         /// <param name="to_ms">A <see cref="System.Int32"/></param>
         /// <returns>Returns 0 on success or PCAP_ERROR_ACTIVATED if called on a capture handle that has been activated.</returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_set_timeout(IntPtr /* pcap_t* */ p, int to_ms);
+        internal extern static Int32 pcap_set_timeout(IntPtr /* pcap_t* */ p, Int32 to_ms);
 
         /// <summary>
         /// pcap_activate() is used to activate a packet capture handle to look at packets on the network, with the options that were set on the handle being in effect.  
@@ -254,7 +254,7 @@ namespace SharpPcap.LibPcap
         /// <param name="p">A <see cref="IntPtr"/></param>
         /// <returns>Returns 0 on success without warnings, a non-zero positive value on success with warnings, and a negative value on error. A non-zero return value indicates what warning or error condition occurred.</returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_activate(IntPtr /* pcap_t* */ p);
+        internal extern static Int32 pcap_activate(IntPtr /* pcap_t* */ p);
 
         #region libpcap specific
         /// <summary>
@@ -271,7 +271,7 @@ namespace SharpPcap.LibPcap
         /// A <see cref="System.Int32"/>
         /// </returns>
         [DllImport(PCAP_DLL, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static int pcap_fileno(IntPtr /* pcap_t* p */ adapter);
+        internal extern static Int32 pcap_fileno(IntPtr /* pcap_t* p */ adapter);
         #endregion
     }
 }

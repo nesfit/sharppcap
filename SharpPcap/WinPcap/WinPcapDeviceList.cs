@@ -35,7 +35,7 @@ namespace SharpPcap.WinPcap
         /// <summary>
         /// Port used by rpcapd by default
         /// </summary>
-        public static int RpcapdDefaultPort = 2002;
+        public static Int32 RpcapdDefaultPort = 2002;
 
         private static WinPcapDeviceList instance;
 
@@ -74,7 +74,7 @@ namespace SharpPcap.WinPcap
         /// </summary>
         private WinPcapDeviceList() : base(new List<WinPcapDevice>())
         {
-            Refresh();
+            this.Refresh();
         }
 
         /// <summary>
@@ -93,18 +93,18 @@ namespace SharpPcap.WinPcap
         /// A <see cref="List<WinPcapDevice>"/>
         /// </returns>
         public static List<WinPcapDevice> Devices(IPAddress address,
-                                                  int port,
+                                                  Int32 port,
                                                   RemoteAuthentication remoteAuthentication)
         {
             // build the remote string
-            var rmStr = string.Format("rpcap://{0}:{1}",
+            var rmStr = String.Format("rpcap://{0}:{1}",
                                       address,
                                       port);
             return Devices(rmStr,
                            remoteAuthentication);
         }
 
-        private static List<WinPcapDevice> Devices(string rpcapString,
+        private static List<WinPcapDevice> Devices(String rpcapString,
                                                    RemoteAuthentication remoteAuthentication)
         {
             var retval = new List<WinPcapDevice>();
@@ -120,7 +120,7 @@ namespace SharpPcap.WinPcap
             else
                 rmAuthPointer = remoteAuthentication.GetUnmanaged();
 
-            int result = SafeNativeMethods.pcap_findalldevs_ex(rpcapString,
+            Int32 result = SafeNativeMethods.pcap_findalldevs_ex(rpcapString,
                                                                rmAuthPointer,
                                                                ref devicePtr,
                                                                errorBuffer);
@@ -167,7 +167,7 @@ namespace SharpPcap.WinPcap
         private static List<WinPcapDevice> GetDevices()
         {
             var rpcapLocalDeviceAddress = "rpcap://";
-            return WinPcapDeviceList.Devices(rpcapLocalDeviceAddress, null);
+            return Devices(rpcapLocalDeviceAddress, null);
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace SharpPcap.WinPcap
                 // update existing devices with values in the new list
                 foreach (var newItem in newDeviceList)
                 {
-                    foreach (var existingItem in base.Items)
+                    foreach (var existingItem in this.Items)
                     {
                         if (newItem.Name == existingItem.Name)
                         {
@@ -199,8 +199,8 @@ namespace SharpPcap.WinPcap
                 // find items the current list is missing
                 foreach (var newItem in newDeviceList)
                 {
-                    bool found = false;
-                    foreach (var existingItem in base.Items)
+                    Boolean found = false;
+                    foreach (var existingItem in this.Items)
                     {
                         if (existingItem.Name == newItem.Name)
                         {
@@ -212,15 +212,15 @@ namespace SharpPcap.WinPcap
                     // add items that we were missing
                     if (!found)
                     {
-                        base.Items.Add(newItem);
+                        this.Items.Add(newItem);
                     }
                 }
 
                 // find items that we have that the current list is missing
                 var itemsToRemove = new List<WinPcapDevice>();
-                foreach (var existingItem in base.Items)
+                foreach (var existingItem in this.Items)
                 {
-                    bool found = false;
+                    Boolean found = false;
 
                     foreach (var newItem in newDeviceList)
                     {
@@ -242,14 +242,14 @@ namespace SharpPcap.WinPcap
                 // enumeration errors
                 foreach (var itemToRemove in itemsToRemove)
                 {
-                    base.Items.Remove(itemToRemove);
+                    this.Items.Remove(itemToRemove);
                 }
             }
         }
 
         #region Device Indexers
         /// <param name="Name">The name or description of the pcap interface to get.</param>
-        public WinPcapDevice this[string Name]
+        public WinPcapDevice this[String Name]
         {
             get
             {
@@ -257,7 +257,7 @@ namespace SharpPcap.WinPcap
                 // with other methods
                 lock (this)
                 {
-                    var devices = (List<WinPcapDevice>)base.Items;
+                    var devices = (List<WinPcapDevice>)this.Items;
                     var dev = devices.Find(delegate(WinPcapDevice i) { return i.Name == Name; });
                     var result = dev ?? devices.Find(delegate(WinPcapDevice i) { return i.Description == Name; });
 

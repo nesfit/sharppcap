@@ -31,24 +31,24 @@ namespace SharpPcap
         /// <summary>
         /// Gets the name of the device
         /// </summary>
-        string Name { get; }
+        String Name { get; }
 
         /// <value>
         /// Description of the device
         /// </value>
-        string Description { get; }
+        String Description { get; }
 
         /// <summary>
         /// The last pcap error associated with this pcap device
         /// </summary>
-        string LastError { get; }
+        String LastError { get; }
 
         /// <summary>
         /// Kernel level filtering expression associated with this device.
         /// For more info on filter expression syntax, see:
         /// http://www.winpcap.org/docs/docs31/html/group__language.html
         /// </summary>
-        string Filter { get; set; }
+        String Filter { get; set; }
 
         /// <summary>
         /// Retrieves pcap statistics
@@ -82,7 +82,7 @@ namespace SharpPcap
         /// <param name="read_timeout">
         /// A <see cref="System.Int32"/>
         /// </param>
-        void Open(DeviceMode mode, int read_timeout);
+        void Open(DeviceMode mode, Int32 read_timeout);
 
         /// <summary>
         /// Open the device. To start capturing call the 'StartCapture' function
@@ -96,7 +96,7 @@ namespace SharpPcap
         /// <param name="monitor_mode">
         /// A <see cref="MonitorMode"/>
         /// </param>
-        void Open(DeviceMode mode, int read_timeout, MonitorMode monitor_mode);
+        void Open(DeviceMode mode, Int32 read_timeout, MonitorMode monitor_mode);
 
         /// <summary>
         /// Closes this adapter
@@ -119,7 +119,7 @@ namespace SharpPcap
         /// <summary>
         /// Return a value indicating if the capturing process of this adapter is started
         /// </summary>
-        bool Started { get; }
+        Boolean Started { get; }
 
         /// <summary>
         /// Maximum time within which the capture thread must join the main thread (on
@@ -157,33 +157,33 @@ namespace SharpPcap
         /// Advanced use only. Intended to allow unmanaged code to avoid the overhead of
         /// marshalling PcapHeader and packet contents to allocated memory.
         /// </summary>
-        int GetNextPacketPointers(ref IntPtr header, ref IntPtr data);
+        Int32 GetNextPacketPointers(ref IntPtr header, ref IntPtr data);
 
         /// <summary>
         /// Sends a raw packet throgh this device
         /// </summary>
         /// <param name="p">The packet to send</param>
-        void SendPacket(PacketDotNet.Packet p);
+        void SendPacket(Packet p);
 
         /// <summary>
         /// Sends a raw packet throgh this device
         /// </summary>
         /// <param name="p">The packet to send</param>
         /// <param name="size">The number of bytes to send</param>
-        void SendPacket(PacketDotNet.Packet p, int size);
+        void SendPacket(Packet p, Int32 size);
 
         /// <summary>
         /// Sends a raw packet throgh this device
         /// </summary>
         /// <param name="p">The packet bytes to send</param>
-        void SendPacket(byte[] p);
+        void SendPacket(Byte[] p);
 
         /// <summary>
         /// Sends a raw packet throgh this device
         /// </summary>
         /// <param name="p">The packet bytes to send</param>
         /// <param name="size">The number of bytes to send</param>
-        void SendPacket(byte[] p, int size);
+        void SendPacket(Byte[] p, Int32 size);
 
         /// <summary>
         /// Return the pcap link layer value of an adapter. 

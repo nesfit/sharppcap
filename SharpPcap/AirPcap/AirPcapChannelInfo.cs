@@ -18,6 +18,8 @@ along with SharpPcap.  If not, see <http://www.gnu.org/licenses/>.
  * Copyright 2010-2011 Chris Morgan <chmorgan@gmail.com>
  */
 
+using System;
+
 namespace SharpPcap.AirPcap
 {
     /// <summary>
@@ -28,7 +30,7 @@ namespace SharpPcap.AirPcap
         ///<summary>
         ///Channel frequency, in MHz
         ///</summary>
-        uint Frequency { get; set; }
+        UInt32 Frequency { get; set; }
 
         /// <summary>
         /// 802.11n specific. Offset of the extension channel in case of 40MHz channels. 
@@ -41,7 +43,7 @@ namespace SharpPcap.AirPcap
         /// In case of 802.11a/b/g channels (802.11n legacy mode), this field should be set to 0.
         ///
         /// </summary>
-        sbyte ExtChannel { get; set; }
+        SByte ExtChannel { get; set; }
 
         /// <summary>
         /// Channel Flags. The only flag supported at this time is \ref AIRPCAP_CIF_TX_ENABLED.
@@ -53,18 +55,18 @@ namespace SharpPcap.AirPcap
             get
             {
                 var channelInfo = new AirPcapUnmanagedStructures.AirpcapChannelInfo();
-                channelInfo.Frequency = Frequency;
-                channelInfo.ExtChannel = ExtChannel;
-                channelInfo.Flags = Flags;
+                channelInfo.Frequency = this.Frequency;
+                channelInfo.ExtChannel = this.ExtChannel;
+                channelInfo.Flags = this.Flags;
                 return channelInfo;
             }
         }
 
         internal AirPcapChannelInfo(AirPcapUnmanagedStructures.AirpcapChannelInfo channelInfo)
         {
-            Frequency = channelInfo.Frequency;
-            ExtChannel = channelInfo.ExtChannel;
-            Flags = channelInfo.Flags;
+            this.Frequency = channelInfo.Frequency;
+            this.ExtChannel = channelInfo.ExtChannel;
+            this.Flags = channelInfo.Flags;
         }
 
         /// <summary>
@@ -73,10 +75,9 @@ namespace SharpPcap.AirPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("[AirPcapChannelInfo Frequency: {0}, ExtChannel: {1}, Flags: {2}]",
-                                 Frequency, ExtChannel, Flags);
+            return String.Format("[AirPcapChannelInfo Frequency: {0}, ExtChannel: {1}, Flags: {2}]", this.Frequency, this.ExtChannel, this.Flags);
         }
     };
 }

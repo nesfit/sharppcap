@@ -29,23 +29,23 @@ namespace SharpPcap.LibPcap
     /// </summary>
     public class CaptureFileReaderDevice : PcapDevice
     {
-        private string m_pcapFile;
+        private readonly String m_pcapFile;
 
         /// <value>
         /// The name of the capture file
         /// </value>
-        public override string Name
+        public override String Name
         {
             get
             {
-                return m_pcapFile;
+                return this.m_pcapFile;
             }
         }
 
         /// <value>
         /// Description of the device
         /// </value>
-        public override string Description
+        public override String Description
         {
             get
             {
@@ -56,20 +56,20 @@ namespace SharpPcap.LibPcap
         /// <value>
         /// Number of bytes in the capture file
         /// </value>
-        public long FileSize
+        public Int64 FileSize
         {
             get
             {
-                return new FileInfo( Name ).Length;
+                return new FileInfo(this.Name ).Length;
             }
         }
 
         /// <summary>
         /// The underlying pcap file name
         /// </summary>
-        public string FileName
+        public String FileName
         {
-            get { return System.IO.Path.GetFileName( this.Name ); }
+            get { return Path.GetFileName( this.Name ); }
         }
 
         /// <summary>
@@ -78,9 +78,9 @@ namespace SharpPcap.LibPcap
         /// <param name="captureFilename">
         /// A <see cref="System.String"/>
         /// </param>
-        public CaptureFileReaderDevice (string captureFilename)
+        public CaptureFileReaderDevice (String captureFilename)
         {
-            m_pcapFile = captureFilename;
+            this.m_pcapFile = captureFilename;
 
             // holds errors
             StringBuilder errbuf = new StringBuilder( Pcap.PCAP_ERRBUF_SIZE ); //will hold errors
@@ -90,12 +90,12 @@ namespace SharpPcap.LibPcap
             // handle error
             if ( adapterHandle == IntPtr.Zero)
             {
-                string err = "Unable to open offline adapter: " + errbuf.ToString();
+                String err = "Unable to open offline adapter: " + errbuf.ToString();
                 throw new PcapException( err );
             }
 
             // set the device handle
-            PcapHandle = adapterHandle;
+            this.PcapHandle = adapterHandle;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace SharpPcap.LibPcap
         public override void Open()
         {
             // Nothing to do here, device is already opened and active upon construction
-            Active = true;
+            this.Active = true;
         }
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Seconds field
         /// </summary>
-        public ulong TsSec
+        public UInt64 TsSec
         {
             get;
             set;
@@ -40,7 +40,7 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Microseconds field
         /// </summary>
-        public ulong TsUsec
+        public UInt64 TsUsec
         {
             get;
             set;
@@ -49,7 +49,7 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Number of bytes captured
         /// </summary>
-        public long Caplen
+        public Int64 Caplen
         {
             get;
             set;
@@ -58,7 +58,7 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// On-line packet size in bytes
         /// </summary>
-        public long Originallen
+        public Int64 Originallen
         {
             get;
             set;
@@ -67,7 +67,7 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Header length in bytes
         /// </summary>
-        public long Hdrlen
+        public Int64 Hdrlen
         {
             get;
             set;
@@ -78,11 +78,11 @@ namespace SharpPcap.AirPcap
             var pkthdr = (AirPcapUnmanagedStructures.AirpcapBpfHeader)Marshal.PtrToStructure(packetHeader,
                                                                                              typeof(AirPcapUnmanagedStructures.AirpcapBpfHeader));
 
-            this.TsSec          = (ulong)pkthdr.TsSec;
-            this.TsUsec         = (ulong)pkthdr.TsUsec;
-            this.Caplen         = (long)pkthdr.Caplen;
-            this.Originallen    = (long)pkthdr.Originallen;
-            this.Hdrlen         = (long)pkthdr.Hdrlen;
+            this.TsSec          = (UInt64)pkthdr.TsSec;
+            this.TsUsec         = (UInt64)pkthdr.TsUsec;
+            this.Caplen         = (Int64)pkthdr.Caplen;
+            this.Originallen    = (Int64)pkthdr.Originallen;
+            this.Hdrlen         = (Int64)pkthdr.Hdrlen;
         }
 
         /// <summary>
@@ -91,14 +91,9 @@ namespace SharpPcap.AirPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("TsSec {0}, TsUSec {1}, Caplen {2}, Originallen {3}, Hdrlen {4}",
-                                 TsSec,
-                                 TsUsec,
-                                 Caplen,
-                                 Originallen,
-                                 Hdrlen);
+            return String.Format("TsSec {0}, TsUSec {1}, Caplen {2}, Originallen {3}, Hdrlen {4}", this.TsSec, this.TsUsec, this.Caplen, this.Originallen, this.Hdrlen);
         }
     }
 }

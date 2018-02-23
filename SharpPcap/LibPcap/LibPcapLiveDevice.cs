@@ -41,7 +41,7 @@ namespace SharpPcap.LibPcap
         /// the pcap device</param>
         internal LibPcapLiveDevice( PcapInterface pcapIf )
         {
-            m_pcapIf = pcapIf;
+            this.m_pcapIf = pcapIf;
 
             // go through the network interfaces and attempt to populate the mac address, 
             // friendly name etc of this device
@@ -50,21 +50,22 @@ namespace SharpPcap.LibPcap
             {
                 // if the name and id match then we have found the NetworkInterface
                 // that matches the PcapDevice
-                if (Name.EndsWith(adapter.Id))
+                if (this.Name.EndsWith(adapter.Id))
                 {
                     var ipProperties = adapter.GetIPProperties();
-                    int gatewayAddressCount = ipProperties.GatewayAddresses.Count;
+                    Int32 gatewayAddressCount = ipProperties.GatewayAddresses.Count;
                     if (gatewayAddressCount != 0)
                     {
                         List<System.Net.IPAddress> gatewayAddresses = new List<System.Net.IPAddress>();
                         foreach(GatewayIPAddressInformation gatewayInfo in ipProperties.GatewayAddresses) {
                             gatewayAddresses.Add(gatewayInfo.Address);
                         }
-                        Interface.GatewayAddresses = gatewayAddresses;
+
+                        this.Interface.GatewayAddresses = gatewayAddresses;
                     }
 
-                    Interface.MacAddress = adapter.GetPhysicalAddress();
-                    Interface.FriendlyName = adapter.Name;
+                    this.Interface.MacAddress = adapter.GetPhysicalAddress();
+                    this.Interface.FriendlyName = adapter.Name;
                 }
             }
         }
@@ -87,9 +88,9 @@ namespace SharpPcap.LibPcap
         /// <summary>
         /// Gets the pcap name of this network device
         /// </summary>
-        public override string Name
+        public override String Name
         {
-            get { return m_pcapIf.Name; }
+            get { return this.m_pcapIf.Name; }
         }
 
         /// <summary>
@@ -97,31 +98,31 @@ namespace SharpPcap.LibPcap
         /// </summary>
         public virtual ReadOnlyCollection<PcapAddress> Addresses
         {
-            get { return new ReadOnlyCollection<PcapAddress>(m_pcapIf.Addresses); }
+            get { return new ReadOnlyCollection<PcapAddress>(this.m_pcapIf.Addresses); }
         }
 
         /// <summary>
         /// Gets the pcap description of this device
         /// </summary>
-        public override string Description
+        public override String Description
         {
-            get { return m_pcapIf.Description; }
+            get { return this.m_pcapIf.Description; }
         }
 
         /// <summary>
         /// Interface flags, see pcap_findalldevs() man page for more info
         /// </summary>
-        public virtual uint Flags
+        public virtual UInt32 Flags
         {
-            get { return m_pcapIf.Flags; }
+            get { return this.m_pcapIf.Flags; }
         }
 
         /// <summary>
         /// True if device is a loopback interface, false if not
         /// </summary>
-        public virtual bool Loopback
+        public virtual Boolean Loopback
         {
-            get { return (Flags & Pcap.PCAP_IF_LOOPBACK)==1; }
+            get { return (this.Flags & Pcap.PCAP_IF_LOOPBACK)==1; }
         }
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace SharpPcap.LibPcap
         /// </param>
         public override void Open(DeviceMode mode)
         {
-            const int readTimeoutMilliseconds = 1000;
+            const Int32 readTimeoutMilliseconds = 1000;
             this.Open(mode, readTimeoutMilliseconds);
         }
 
@@ -154,7 +155,7 @@ namespace SharpPcap.LibPcap
         /// <param name="read_timeout">
         /// A <see cref="System.Int32"/>
         /// </param>
-        public override void Open(DeviceMode mode, int read_timeout)
+        public override void Open(DeviceMode mode, Int32 read_timeout)
         {
             const MonitorMode monitorMode = MonitorMode.Inactive;
             this.Open(mode, read_timeout, monitorMode);
@@ -172,9 +173,9 @@ namespace SharpPcap.LibPcap
         /// <param name="monitor_mode">
         /// A <see cref="MonitorMode"/>
         /// </param>
-        public override void Open(DeviceMode mode, int read_timeout, MonitorMode monitor_mode)
+        public override void Open(DeviceMode mode, Int32 read_timeout, MonitorMode monitor_mode)
         {
-            if ( !Opened )
+            if ( !this.Opened )
             {
                 StringBuilder errbuf = new StringBuilder( Pcap.PCAP_ERRBUF_SIZE ); //will hold errors
 
@@ -184,61 +185,61 @@ namespace SharpPcap.LibPcap
                 //
                 // NOTE: Doesn't affect Mono if unix poll is available, doesn't affect Linux because
                 //       Linux devices have no timeout, they always block. Only affects Windows devices.
-                StopCaptureTimeout = new TimeSpan(0, 0, 0, 0, read_timeout * 2);
+                this.StopCaptureTimeout = new TimeSpan(0, 0, 0, 0, read_timeout * 2);
 
-                PcapHandle = LibPcapSafeNativeMethods.pcap_create(
-                    Name, // name of the device
+                this.PcapHandle = LibPcapSafeNativeMethods.pcap_create(this.Name, // name of the device
                     errbuf); // error buffer                
 
-                if ( PcapHandle == IntPtr.Zero)
+                if (this.PcapHandle == IntPtr.Zero)
                 {
-                    string err = "Unable to open the adapter ("+Name+"). "+errbuf.ToString();
+                    String err = "Unable to open the adapter ("+ this.Name+"). "+errbuf.ToString();
                     throw new PcapException( err );
                 }
 
-                LibPcapSafeNativeMethods.pcap_set_snaplen(PcapHandle, Pcap.MAX_PACKET_SIZE);
+                LibPcapSafeNativeMethods.pcap_set_snaplen(this.PcapHandle, Pcap.MAX_PACKET_SIZE);
                 if (monitor_mode == MonitorMode.Active)
                 {
                     try
                     {
-                        LibPcapSafeNativeMethods.pcap_set_rfmon(PcapHandle, (int)monitor_mode);
+                        LibPcapSafeNativeMethods.pcap_set_rfmon(this.PcapHandle, (Int32)monitor_mode);
                     }
-                    catch (System.EntryPointNotFoundException)
+                    catch (EntryPointNotFoundException)
                     {
                         throw new PcapException("This implementation of libpcap does not support monitor mode.");
                     }
                 }
                 
-                LibPcapSafeNativeMethods.pcap_set_promisc(PcapHandle, (int)mode);
-                LibPcapSafeNativeMethods.pcap_set_timeout(PcapHandle, read_timeout);
+                LibPcapSafeNativeMethods.pcap_set_promisc(this.PcapHandle, (Int32)mode);
+                LibPcapSafeNativeMethods.pcap_set_timeout(this.PcapHandle, read_timeout);
 
-                var activationResult = LibPcapSafeNativeMethods.pcap_activate(PcapHandle);
+                var activationResult = LibPcapSafeNativeMethods.pcap_activate(this.PcapHandle);
                 if (activationResult < 0)
                 {                    
-                    string err = "Unable to activate the adapter (" + Name + "). Return code: " + activationResult.ToString();
+                    String err = "Unable to activate the adapter (" + this.Name + "). Return code: " + activationResult.ToString();
                     throw new PcapException(err);
                 }
-                Active = true;
+
+                this.Active = true;
             }
         }
 
-        private const int disableBlocking = 0;
-        private const int enableBlocking = 1;
+        private const Int32 disableBlocking = 0;
+        private const Int32 enableBlocking = 1;
 
         /// <summary>
         /// Set/Get Non-Blocking Mode. returns allways false for savefiles.
         /// </summary>
-        public bool NonBlockingMode
+        public Boolean NonBlockingMode
         {
             get
             {
                 var errbuf = new StringBuilder(Pcap.PCAP_ERRBUF_SIZE); //will hold errors
-                int ret = LibPcapSafeNativeMethods.pcap_getnonblock(PcapHandle, errbuf);
+                Int32 ret = LibPcapSafeNativeMethods.pcap_getnonblock(this.PcapHandle, errbuf);
 
                 // Errorbuf is only filled when ret = -1
                 if (ret == -1)
                 {
-                    string err = "Unable to set get blocking" + errbuf.ToString();
+                    String err = "Unable to set get blocking" + errbuf.ToString();
                     throw new PcapException(err);
                 }
 
@@ -250,16 +251,16 @@ namespace SharpPcap.LibPcap
             {
                 var errbuf = new StringBuilder(Pcap.PCAP_ERRBUF_SIZE); //will hold errors
 
-                int block = disableBlocking;
+                Int32 block = disableBlocking;
                 if (value)
                     block = enableBlocking;
 
-                int ret = LibPcapSafeNativeMethods.pcap_setnonblock(PcapHandle, block, errbuf);
+                Int32 ret = LibPcapSafeNativeMethods.pcap_setnonblock(this.PcapHandle, block, errbuf);
 
                 // Errorbuf is only filled when ret = -1
                 if (ret == -1)
                 {
-                    string err = "Unable to set non blocking" + errbuf.ToString();
+                    String err = "Unable to set non blocking" + errbuf.ToString();
                     throw new PcapException(err);
                 }
             }
@@ -270,9 +271,9 @@ namespace SharpPcap.LibPcap
         /// </summary>
         /// <param name="p">The packet bytes to send</param>
         /// <param name="size">The number of bytes to send</param>
-        public override void SendPacket(byte[] p, int size)
+        public override void SendPacket(Byte[] p, Int32 size)
         {
-            ThrowIfNotOpen("Can't send packet, the device is closed");
+            this.ThrowIfNotOpen("Can't send packet, the device is closed");
 
             if (size > p.Length)
             {
@@ -289,11 +290,11 @@ namespace SharpPcap.LibPcap
             p_packet = Marshal.AllocHGlobal( size );
             Marshal.Copy(p, 0, p_packet, size);     
 
-            int res = LibPcapSafeNativeMethods.pcap_sendpacket(PcapHandle, p_packet, size);
+            Int32 res = LibPcapSafeNativeMethods.pcap_sendpacket(this.PcapHandle, p_packet, size);
             Marshal.FreeHGlobal(p_packet);
             if(res < 0)
             {
-                throw new PcapException("Can't send packet: " + LastError);
+                throw new PcapException("Can't send packet: " + this.LastError);
             }
         }
 
@@ -308,7 +309,7 @@ namespace SharpPcap.LibPcap
             get
             {
                 // can only call PcapStatistics on an open device
-                ThrowIfNotOpen("device not open");
+                this.ThrowIfNotOpen("device not open");
 
                 return new PcapStatistics(this.m_pcapAdapterHandle);
             }

@@ -91,14 +91,14 @@ namespace SharpPcap
             if ((Environment.OSVersion.Platform == PlatformID.Win32NT) ||
                (Environment.OSVersion.Platform == PlatformID.Win32Windows))
             {
-                winPcapDeviceList = WinPcap.WinPcapDeviceList.Instance;
+                this.winPcapDeviceList = WinPcap.WinPcapDeviceList.Instance;
             }
             else // not windows
             {
-                libPcapDeviceList = LibPcap.LibPcapLiveDeviceList.Instance;
+                this.libPcapDeviceList = LibPcap.LibPcapLiveDeviceList.Instance;
             }
 
-            Refresh();
+            this.Refresh();
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace SharpPcap
             if ((Environment.OSVersion.Platform == PlatformID.Win32NT) ||
                (Environment.OSVersion.Platform == PlatformID.Win32Windows))
             {
-                var dl = winPcapDeviceList;
+                var dl = this.winPcapDeviceList;
                 foreach (var c in dl)
                 {
                     deviceList.Add(c);
@@ -123,7 +123,7 @@ namespace SharpPcap
             }
             else // not windows
             {
-                var dl = libPcapDeviceList;
+                var dl = this.libPcapDeviceList;
                 foreach (var c in dl)
                 {
                     deviceList.Add(c);
@@ -141,26 +141,26 @@ namespace SharpPcap
             lock (this)
             {
                 // clear out any items we might have
-                base.Items.Clear();
+                this.Items.Clear();
 
                 // windows
                 if ((Environment.OSVersion.Platform == PlatformID.Win32NT) ||
                    (Environment.OSVersion.Platform == PlatformID.Win32Windows))
                 {
-                    winPcapDeviceList.Refresh();
+                    this.winPcapDeviceList.Refresh();
 
-                    foreach(var i in winPcapDeviceList)
+                    foreach(var i in this.winPcapDeviceList)
                     {
-                        base.Items.Add(i);
+                        this.Items.Add(i);
                     }
                 }
                 else // not windows
                 {
-                    libPcapDeviceList.Refresh();
+                    this.libPcapDeviceList.Refresh();
 
-                    foreach(var i in libPcapDeviceList)
+                    foreach(var i in this.libPcapDeviceList)
                     {
-                        base.Items.Add(i);
+                        this.Items.Add(i);
                     }
                 }
             }
@@ -168,7 +168,7 @@ namespace SharpPcap
 
         #region Device Indexers
         /// <param name="Name">The name or description of the pcap interface to get.</param>
-        public ICaptureDevice this[string Name]
+        public ICaptureDevice this[String Name]
         {
             get
             {
@@ -180,11 +180,11 @@ namespace SharpPcap
                     if ((Environment.OSVersion.Platform == PlatformID.Win32NT) ||
                        (Environment.OSVersion.Platform == PlatformID.Win32Windows))
                     {
-                        return winPcapDeviceList[Name];
+                        return this.winPcapDeviceList[Name];
                     }
                     else // not windows
                     {
-                        return libPcapDeviceList[Name];
+                        return this.libPcapDeviceList[Name];
                     }
                 }
             }

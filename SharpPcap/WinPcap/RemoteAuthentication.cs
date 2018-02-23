@@ -16,12 +16,12 @@ namespace SharpPcap.WinPcap
         /// <summary>
         /// Username
         /// </summary>
-        public string Username { get; set; }
+        public String Username { get; set; }
 
         /// <summary>
         /// Password
         /// </summary>
-        public string Password { get; set; }
+        public String Password { get; set; }
 
         /// <summary>
         /// Constructor
@@ -36,8 +36,8 @@ namespace SharpPcap.WinPcap
         /// A <see cref="System.String"/>
         /// </param>
         public RemoteAuthentication (AuthenticationTypes Type,
-                                     string Username,
-                                     string Password)
+                                     String Username,
+                                     String Password)
         {
             this.Type = Type;
             this.Username = Username;
@@ -54,9 +54,9 @@ namespace SharpPcap.WinPcap
         internal IntPtr GetUnmanaged()
         {
             UnmanagedStructures.pcap_rmtauth rmauth;
-            rmauth.type = (IntPtr)Type;
-            rmauth.username = Username;
-            rmauth.password = Password;
+            rmauth.type = (IntPtr) this.Type;
+            rmauth.username = this.Username;
+            rmauth.password = this.Password;
 
             // Initialize unmanged memory to hold the struct.
             IntPtr rmAuthPointer = Marshal.AllocHGlobal(Marshal.SizeOf(rmauth));

@@ -18,6 +18,8 @@ along with SharpPcap.  If not, see <http://www.gnu.org/licenses/>.
  * Copyright 2009-2010 Chris Morgan <chmorgan@gmail.com>
  */
 
+using System;
+
 namespace SharpPcap
 {
     /// <summary>
@@ -31,7 +33,7 @@ namespace SharpPcap
         /// <param name="msg">
         /// A <see cref="System.String"/>
         /// </param>
-        public StatisticsException(string msg) : base(msg)
+        public StatisticsException(String msg) : base(msg)
         {
         }
     }

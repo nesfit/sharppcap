@@ -38,9 +38,9 @@ namespace SharpPcap.AirPcap
 
         internal AirPcapDeviceTimestamp(AirPcapUnmanagedStructures.AirpcapDeviceTimestamp timestamp)
         {
-            DeviceTimestamp = timestamp.DeviceTimestamp;
-            SoftwareTimestampBefore = timestamp.SoftwareTimestampBefore;
-            SoftwareTimestampAfter = timestamp.SoftwareTimestampAfter;
+            this.DeviceTimestamp = timestamp.DeviceTimestamp;
+            this.SoftwareTimestampBefore = timestamp.SoftwareTimestampBefore;
+            this.SoftwareTimestampAfter = timestamp.SoftwareTimestampAfter;
         }
 
         /// <summary>
@@ -49,10 +49,9 @@ namespace SharpPcap.AirPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("[AirPcapDeviceTimestamp DeviceTimestamp {0}, SoftwareTimestampBefore {1}, SoftwareTimestampAfter {2}",
-                                 DeviceTimestamp, SoftwareTimestampBefore, SoftwareTimestampAfter);
+            return String.Format("[AirPcapDeviceTimestamp DeviceTimestamp {0}, SoftwareTimestampBefore {1}, SoftwareTimestampAfter {2}", this.DeviceTimestamp, this.SoftwareTimestampBefore, this.SoftwareTimestampAfter);
         }
     }
 }

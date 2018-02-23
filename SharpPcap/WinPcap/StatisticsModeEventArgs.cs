@@ -50,7 +50,7 @@ namespace SharpPcap.WinPcap
         {
             get
             {
-                return new StatisticsModePacket(base.Packet);
+                return new StatisticsModePacket(this.Packet);
             }
         }
     }

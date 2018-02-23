@@ -31,7 +31,7 @@ namespace SharpPcap
     /// </summary>
     public class ARP
     {
-        private LibPcap.LibPcapLiveDevice _device;
+        private readonly LibPcap.LibPcapLiveDevice _device;
 
         /// <summary>
         /// Constructs a new ARP Resolver
@@ -39,7 +39,7 @@ namespace SharpPcap
         /// <param name="device">The network device on which this resolver sends its ARP packets</param>
         public ARP(LibPcap.LibPcapLiveDevice device)
         {
-            _device = device;
+            this._device = device;
         }
 
         private TimeSpan timeout = new TimeSpan(0, 0, 1);
@@ -51,12 +51,12 @@ namespace SharpPcap
         {
             get
             {
-                return timeout;
+                return this.timeout;
             }
 
             set
             {
-                timeout = value;
+                this.timeout = value;
             }
         }
 
@@ -68,7 +68,7 @@ namespace SharpPcap
         /// <returns>The MAC address that matches to the given IP address</returns>
         public PhysicalAddress Resolve(System.Net.IPAddress destIP)
         {
-            return Resolve(destIP, null, null);
+            return this.Resolve(destIP, null, null);
         }
 
         /// <summary>
@@ -86,11 +86,11 @@ namespace SharpPcap
             // if no local ip address is specified attempt to find one from the adapter
             if (localIP == null)
             {
-                if (_device.Addresses.Count > 0)
+                if (this._device.Addresses.Count > 0)
                 {
                     // attempt to find an ipv4 address.
                     // ARP is ipv4, NDP is used for ipv6
-                    foreach(var address in _device.Addresses)
+                    foreach(var address in this._device.Addresses)
                     {
                         if(address.Addr.type == LibPcap.Sockaddr.AddressTypes.AF_INET_AF_INET6)
                         {
@@ -114,7 +114,7 @@ namespace SharpPcap
             // if no local mac address is specified attempt to find one from the device
             if(localMAC == null)
             {
-                foreach(var address in _device.Addresses)
+                foreach(var address in this._device.Addresses)
                 {
                     if(address.Addr.type == LibPcap.Sockaddr.AddressTypes.HARDWARE)
                     {
@@ -125,25 +125,25 @@ namespace SharpPcap
 
             if(localIP == null)
             {
-                throw new System.InvalidOperationException("Unable to find local ip address");
+                throw new InvalidOperationException("Unable to find local ip address");
             }
 
             if(localMAC == null)
             {
-                throw new System.InvalidOperationException("Unable to find local mac address");
+                throw new InvalidOperationException("Unable to find local mac address");
             }
 
             //Build a new ARP request packet
-            var request = BuildRequest(destIP, localMAC, localIP);
+            var request = this.BuildRequest(destIP, localMAC, localIP);
 
             //create a "tcpdump" filter for allowing only arp replies to be read
             String arpFilter = "arp and ether dst " + localMAC.ToString();
 
             //open the device with 20ms timeout
-            _device.Open(DeviceMode.Promiscuous, 20);
+            this._device.Open(DeviceMode.Promiscuous, 20);
 
             //set the filter
-            _device.Filter = arpFilter;
+            this._device.Filter = arpFilter;
 
             // set a last request time that will trigger sending the
             // arp request immediately
@@ -154,18 +154,18 @@ namespace SharpPcap
             ARPPacket arpPacket = null;
 
             // attempt to resolve the address with the current timeout
-            var timeoutDateTime = DateTime.Now + Timeout;
+            var timeoutDateTime = DateTime.Now + this.Timeout;
             while(DateTime.Now < timeoutDateTime)
             {
                 if(requestInterval < (DateTime.Now - lastRequestTime))
                 {
                     // inject the packet to the wire
-                    _device.SendPacket(request);
+                    this._device.SendPacket(request);
                     lastRequestTime = DateTime.Now;
                 }
 
                 //read the next packet from the network
-                var reply = _device.GetNextPacket();
+                var reply = this._device.GetNextPacket();
                 if(reply == null)
                 {
                     continue;
@@ -189,7 +189,7 @@ namespace SharpPcap
             }
 
             // free the device
-            _device.Close();
+            this._device.Close();
 
             // the timeout happened
             if(DateTime.Now >= timeoutDateTime)

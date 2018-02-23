@@ -33,7 +33,7 @@ namespace SharpPcap
         {
         }
 
-        internal PcapException(string msg):base(msg)
+        internal PcapException(String msg):base(msg)
         {
         }
     }

@@ -36,7 +36,7 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// String containing a printable adapter model
         /// </summary>
-        public string /* CHAR* */ AdapterModelName;
+        public String /* CHAR* */ AdapterModelName;
 
         /// <summary>
         /// The type of bus the adapter is plugged to
@@ -46,17 +46,17 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// TRUE if the adapter is able to perform frame injection.
         /// </summary>
-        public bool CanTransmit { get; internal set; }
+        public Boolean CanTransmit { get; internal set; }
 
         /// <summary>
         /// TRUE if the adapter's transmit power is can be specified by the user application.
         /// </summary>
-        public bool CanSetTransmitPower { get; internal set; }
+        public Boolean CanSetTransmitPower { get; internal set; }
 
         /// <summary>
         /// TRUE if the adapter supports plugging one or more external antennas.
         /// </summary>
-        public bool ExternalAntennaPlug { get; internal set; }
+        public Boolean ExternalAntennaPlug { get; internal set; }
 
         /// <summary>
         /// An OR combination of the media that the device supports. Possible values are: \ref AIRPCAP_MEDIUM_802_11_A,
@@ -91,14 +91,11 @@ namespace SharpPcap.AirPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("[AirPcapDeviceCapabilities AdapterId: {0}, AdapterModelName: {1}, AdapterBus: {2}," +
+            return String.Format("[AirPcapDeviceCapabilities AdapterId: {0}, AdapterModelName: {1}, AdapterBus: {2}," +
                                  " CanTransmit: {3}, CanSetTransmitPower: {4}, ExternalAntennaPlug: {5}," +
-                                 " SupportedMedia: {6}, SupportedBands: {7}]",
-                                 AdapterId, AdapterModelName, AdapterBus,
-                                 CanTransmit, CanSetTransmitPower, ExternalAntennaPlug,
-                                 SupportedMedia, SupportedBands);
+                                 " SupportedMedia: {6}, SupportedBands: {7}]", this.AdapterId, this.AdapterModelName, this.AdapterBus, this.CanTransmit, this.CanSetTransmitPower, this.ExternalAntennaPlug, this.SupportedMedia, this.SupportedBands);
         }
     }
 }

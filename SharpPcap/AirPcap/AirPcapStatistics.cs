@@ -31,23 +31,23 @@ namespace SharpPcap.AirPcap
         /// <value>
         /// Number of packets received
         /// </value>
-        public uint ReceivedPackets { get; set; }
+        public UInt32 ReceivedPackets { get; set; }
 
         /// <value>
         /// Number of packets dropped
         /// </value>
-        public uint DroppedPackets { get; set; }
+        public UInt32 DroppedPackets { get; set; }
 
         /// <value>
         /// Number of interface dropped packets
         /// </value>
-        public uint InterfaceDroppedPackets { get; set; }
+        public UInt32 InterfaceDroppedPackets { get; set; }
 
         /// <summary>
         /// Number of packets that pass the BPF filter, find place in the kernel buffer and
         /// therefore reach the application.
         /// </summary>
-        public uint CapturedPackets { get; set; }
+        public UInt32 CapturedPackets { get; set; }
 
         internal AirPcapStatistics(IntPtr AirPcapDeviceHandle)
         {
@@ -72,11 +72,10 @@ namespace SharpPcap.AirPcap
         /// ToString override 
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("[AirPcapStatistics {0}, CapturedPackets: {1}]",
-                                 base.ToString(),
-                                 CapturedPackets);
+            return String.Format("[AirPcapStatistics {0}, CapturedPackets: {1}]",
+                                 base.ToString(), this.CapturedPackets);
         }
     }
 }

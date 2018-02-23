@@ -30,29 +30,29 @@ namespace SharpPcap
     public class Pcap
     {
         /// <summary>Represents the infinite number for packet captures </summary>
-        internal const int InfinitePacketCount = -1;
+        internal const Int32 InfinitePacketCount = -1;
 
         /* interface is loopback */
-        internal const uint     PCAP_IF_LOOPBACK                = 0x00000001;
-        internal const int      MAX_PACKET_SIZE                 = 65536;
-        internal const int      PCAP_ERRBUF_SIZE                = 256;
+        internal const UInt32     PCAP_IF_LOOPBACK                = 0x00000001;
+        internal const Int32      MAX_PACKET_SIZE                 = 65536;
+        internal const Int32      PCAP_ERRBUF_SIZE                = 256;
 
         // Constants for address families
         // These are set in a Pcap static initializer because the values
         // differ between Windows and Linux
-        internal readonly static int      AF_INET;
-        internal readonly static int      AF_PACKET;
-        internal readonly static int      AF_INET6;
+        internal readonly static Int32      AF_INET;
+        internal readonly static Int32      AF_PACKET;
+        internal readonly static Int32      AF_INET6;
 
         // Constants for pcap loop exit status.
-        internal const int LOOP_USER_TERMINATED  = -2;
-        internal const int LOOP_EXIT_WITH_ERROR  = -1;
-        internal const int LOOP_COUNT_EXHAUSTED  =  0;
+        internal const Int32 LOOP_USER_TERMINATED  = -2;
+        internal const Int32 LOOP_EXIT_WITH_ERROR  = -1;
+        internal const Int32 LOOP_COUNT_EXHAUSTED  =  0;
 
         /// <summary>
         /// Returns the pcap version string retrieved via a call to pcap_lib_version()
         /// </summary>
-        public static string Version
+        public static String Version
         {
             get
             {
@@ -68,9 +68,9 @@ namespace SharpPcap
             }
         }
 
-        private static bool isUnix()
+        private static Boolean isUnix()
         {
-            int p = (int) Environment.OSVersion.Platform;
+            Int32 p = (Int32) Environment.OSVersion.Platform;
             if ((p == 4) || (p == 6) || (p == 128))
             {
                 return true;

@@ -19,10 +19,12 @@ along with SharpPcap.  If not, see <http://www.gnu.org/licenses/>.
  * Copyright 2009-2010 Chris Morgan <chmorgan@gmail.com>
  */
 
+using System;
+
 namespace SharpPcap
 {
     /// <summary>
     /// A delegate for notifying of a capture stopped event
     /// </summary>
-    public delegate void CaptureStoppedEventHandler(object sender, CaptureStoppedEventStatus status);
+    public delegate void CaptureStoppedEventHandler(Object sender, CaptureStoppedEventStatus status);
 }

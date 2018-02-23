@@ -49,7 +49,7 @@ namespace SharpPcap.AirPcap
             ///
             /// CHAR
             /// </summary>
-            public sbyte ExtChannel;
+            public SByte ExtChannel;
 
             /// <summary>
             /// Channel Flags. The only flag supported at this time is \ref AIRPCAP_CIF_TX_ENABLED.
@@ -61,8 +61,9 @@ namespace SharpPcap.AirPcap
             /// <summary>
             /// Reserved. It should be set to {0,0}.
             /// </summary>
-            byte Reserved1;
-            byte Reserved2;
+            readonly Byte Reserved1;
+
+            readonly Byte Reserved2;
 #pragma warning restore 0169
         };
 
@@ -112,7 +113,7 @@ namespace SharpPcap.AirPcap
             /// <summary>
             /// String containing a printable adapter model
             /// </summary>
-            public string /* CHAR* */ AdapterModelName;
+            public String /* CHAR* */ AdapterModelName;
             /// <summary>
             /// The type of bus the adapter is plugged to
             /// </summary>
@@ -120,15 +121,15 @@ namespace SharpPcap.AirPcap
             /// <summary>
             /// TRUE if the adapter is able to perform frame injection.
             /// </summary>
-            public bool CanTransmit;
+            public Boolean CanTransmit;
             /// <summary>
             /// TRUE if the adapter's transmit power is can be specified by the user application.
             /// </summary>
-            public bool CanSetTransmitPower;
+            public Boolean CanSetTransmitPower;
             /// <summary>
             /// TRUE if the adapter supports plugging one or more external antennas.
             /// </summary>
-            public bool ExternalAntennaPlug;
+            public Boolean ExternalAntennaPlug;
             /// <summary>
             /// An OR combination of the media that the device supports. Possible values are: \ref AIRPCAP_MEDIUM_802_11_A,
             /// \ref AIRPCAP_MEDIUM_802_11_B, \ref AIRPCAP_MEDIUM_802_11_G or \ref AIRPCAP_MEDIUM_802_11_N.
@@ -143,7 +144,7 @@ namespace SharpPcap.AirPcap
         }
 
 
-        internal const int WepKeyMaxSize = 32;
+        internal const Int32 WepKeyMaxSize = 32;
 
         /// <summary>
         /// WEB key container
@@ -165,7 +166,7 @@ namespace SharpPcap.AirPcap
             /// Key data
             /// </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst=WepKeyMaxSize)]
-            public byte[] /* BYTE */ KeyData;
+            public Byte[] /* BYTE */ KeyData;
         }
 
         /// <summary>
@@ -201,13 +202,13 @@ namespace SharpPcap.AirPcap
             ///Device name
             ///PCHAR
             ///</summary>
-            public string Name;
+            public String Name;
 
             ///<summary>
             ///Device description
             ///PCHAR
             ///</summary>
-            public string Description;
+            public String Description;
         };
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)] //Note: Pack =1 cause problems with Win 7 64b

@@ -26,12 +26,12 @@ namespace SharpPcap.WinPcap
             /// <summary>
             /// Username
             /// </summary>
-            public string   username;
+            public String   username;
 
             /// <summary>
             /// Password
             /// </summary>
-            public string   password;
+            public String   password;
         }
 
         #endregion

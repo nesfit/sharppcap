@@ -19,6 +19,8 @@ along with SharpPcap.  If not, see <http://www.gnu.org/licenses/>.
  * Copyright 2008-2009 Phillip Lemon <lucidcomms@gmail.com>
  */
 
+using System;
+
 namespace SharpPcap
 {
     /// <summary>
@@ -32,12 +34,12 @@ namespace SharpPcap
         /// Returns the current version string of the SharpPcap library
         /// </summary>
         /// <returns>the current version string of the SharpPcap library</returns>
-        public static string VersionString
+        public static String VersionString
         {
             get
             {
                 System.Reflection.Assembly asm
-                    = System.Reflection.Assembly.GetAssembly(typeof(SharpPcap.Version));
+                    = System.Reflection.Assembly.GetAssembly(typeof(Version));
                 return asm.GetName().Version.ToString();
             }
         }

@@ -27,6 +27,6 @@ namespace SharpPcap.AirPcap
     internal static class Win32SafeNativeMethods
     {
         [DllImport("kernel32", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        internal static extern int WaitForSingleObject(IntPtr hHandle, IntPtr dwMilliseconds);
+        internal static extern Int32 WaitForSingleObject(IntPtr hHandle, IntPtr dwMilliseconds);
     }
 }

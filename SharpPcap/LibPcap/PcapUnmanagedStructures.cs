@@ -35,8 +35,8 @@ namespace SharpPcap.LibPcap
         public struct pcap_if 
         {
             public IntPtr /* pcap_if* */    Next;           
-            public string                   Name;           /* name to hand to "pcap_open_live()" */                
-            public string                   Description;    /* textual description of interface, or NULL */
+            public String                   Name;           /* name to hand to "pcap_open_live()" */                
+            public String                   Description;    /* textual description of interface, or NULL */
             public IntPtr /*pcap_addr * */  Addresses;
             public UInt32                   Flags;          /* PCAP_IF_ interface flags */
         };
@@ -64,7 +64,7 @@ namespace SharpPcap.LibPcap
         {
             public UInt16       sa_family;      /* address family */
             [MarshalAs(UnmanagedType.ByValArray, SizeConst=14)]
-            public byte[]       sa_data;        /* 14 bytes of protocol address */
+            public Byte[]       sa_data;        /* 14 bytes of protocol address */
         };
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace SharpPcap.LibPcap
             [MarshalAs(UnmanagedType.ByValArray, SizeConst=8)]
 // Disable warnings around this unused field
 #pragma warning disable 0169
-            private byte[]       pad;
+            private readonly Byte[]       pad;
 #pragma warning restore 0169
         };
 
@@ -109,7 +109,7 @@ namespace SharpPcap.LibPcap
             public UInt16       sin6_port;      /* Transport layer port # */
             public UInt32       sin6_flowinfo;  /* IPv6 flow information */
             [MarshalAs(UnmanagedType.ByValArray, SizeConst=16)]
-            public byte[]       sin6_addr;      /* IPv6 address */
+            public Byte[]       sin6_addr;      /* IPv6 address */
             public UInt32       sin6_scope_id;  /* scope id (new in RFC2553) */
         };
 
@@ -123,10 +123,10 @@ namespace SharpPcap.LibPcap
             public UInt16 sll_protocol;
             public UInt32 sll_ifindex;
             public UInt16 sll_hatype;
-            public byte   sll_pkttype;
-            public byte   sll_halen;
+            public Byte   sll_pkttype;
+            public Byte   sll_halen;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst=8)]
-            public byte[] sll_addr;
+            public Byte[] sll_addr;
         };
 
         #region timeval
@@ -203,8 +203,8 @@ namespace SharpPcap.LibPcap
         [StructLayout(LayoutKind.Sequential)]
         internal struct PCAP_PKTDATA
         {   
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst=SharpPcap.Pcap.MAX_PACKET_SIZE)]                     
-            public byte[]       bytes;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst=Pcap.MAX_PACKET_SIZE)]                     
+            public Byte[]       bytes;
         };
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace SharpPcap.LibPcap
         [StructLayout(LayoutKind.Sequential)]
         internal struct bpf_program 
         {
-            public uint bf_len;                
+            public UInt32 bf_len;                
             public IntPtr /* bpf_insn **/ bf_insns;  
         };
 
@@ -223,8 +223,8 @@ namespace SharpPcap.LibPcap
         [StructLayout(LayoutKind.Sequential)]
         internal struct pcap_send_queue 
         {
-            public uint maxlen;   
-            public uint len;   
+            public UInt32 maxlen;   
+            public UInt32 len;   
             public IntPtr /* char **/ ptrBuff;  
         };
 
@@ -269,23 +269,23 @@ namespace SharpPcap.LibPcap
             /// <summary>
             /// Packets received
             /// </summary>
-            public uint ps_recv;
+            public UInt32 ps_recv;
 
             /// <summary>
             /// Packets dropped
             /// </summary>
-            public uint ps_drop;
+            public UInt32 ps_drop;
 
             /// <summary>
             /// Drops by interface (maybe not yet supported)
             /// </summary>
-            public uint ps_ifdrop;
+            public UInt32 ps_ifdrop;
 
             /// <summary>
             /// Packets that reach the application
             /// WIN32 only, based on struct pcap_stat in pcap.h
             /// </summary>
-            public uint bs_capt;
+            public UInt32 bs_capt;
         }
 
         #endregion Unmanaged Structs Implementation

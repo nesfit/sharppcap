@@ -30,8 +30,8 @@ namespace SharpPcap.LibPcap
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // Force it to match a 32-bit native header exactly
     public struct PcapHeader
     {
-        static readonly bool isWindows = Environment.OSVersion.Platform != PlatformID.Unix;
-        static readonly bool is32BitTs = IntPtr.Size == 4 || isWindows;
+        static readonly Boolean isWindows = Environment.OSVersion.Platform != PlatformID.Unix;
+        static readonly Boolean is32BitTs = IntPtr.Size == 4 || isWindows;
 
         /// <summary>
         ///  A wrapper class for libpcap's pcap_pkthdr structure
@@ -42,14 +42,14 @@ namespace SharpPcap.LibPcap
                 var pkthdr = *(PcapUnmanagedStructures.pcap_pkthdr_unix*)pcap_pkthdr;
                 this.CaptureLength = pkthdr.caplen;
                 this.PacketLength = pkthdr.len;
-                this.Seconds = (uint)pkthdr.ts.tv_sec;
-                this.MicroSeconds = (uint)pkthdr.ts.tv_usec;
+                this.Seconds = (UInt32)pkthdr.ts.tv_sec;
+                this.MicroSeconds = (UInt32)pkthdr.ts.tv_usec;
             } else {
                 var pkthdr = *(PcapUnmanagedStructures.pcap_pkthdr_windows*)pcap_pkthdr;
                 this.CaptureLength = pkthdr.caplen;
                 this.PacketLength = pkthdr.len;
-                this.Seconds = (uint)pkthdr.ts.tv_sec;
-                this.MicroSeconds = (uint)pkthdr.ts.tv_usec;
+                this.Seconds = (UInt32)pkthdr.ts.tv_sec;
+                this.MicroSeconds = (UInt32)pkthdr.ts.tv_usec;
             }
         }
 
@@ -72,7 +72,7 @@ namespace SharpPcap.LibPcap
         /// <param name="microseconds">The microseconds value of the packet's timestamp</param>
         /// <param name="packetLength">The actual length of the packet</param>
         /// <param name="captureLength">The length of the capture</param>
-        public PcapHeader( uint seconds, uint microseconds, uint packetLength, uint captureLength )
+        public PcapHeader( UInt32 seconds, UInt32 microseconds, UInt32 packetLength, UInt32 captureLength )
         {
             this.Seconds = seconds;
             this.MicroSeconds = microseconds;
@@ -83,37 +83,37 @@ namespace SharpPcap.LibPcap
         /// <summary>
         /// The seconds value of the packet's timestamp
         /// </summary>
-        public uint Seconds;
+        public UInt32 Seconds;
 
         /// <summary>
         /// The microseconds value of the packet's timestamp
         /// </summary>
-        public uint MicroSeconds;
+        public UInt32 MicroSeconds;
 
         /// <summary>
         /// The length of the packet on the line
         /// </summary>
-        public uint PacketLength;
+        public UInt32 PacketLength;
 
         /// <summary>
         /// The the bytes actually captured. If the capture length
         /// is small CaptureLength might be less than PacketLength
         /// </summary>
-        public uint CaptureLength;
+        public UInt32 CaptureLength;
 
         /// <summary>
         /// DateTime(1970, 1, 1).Ticks, saves cpu cycles in the Date property
         /// </summary>
-        const long epochTicks = 621355968000000000L;
+        const Int64 epochTicks = 621355968000000000L;
 
         /// <summary>
         /// Return the DateTime value of this pcap header
         /// </summary>
-        public System.DateTime Date
+        public DateTime Date
         {
             get
             {
-                return new DateTime(epochTicks + (Seconds * 10000000L) + (MicroSeconds * 10L));
+                return new DateTime(epochTicks + (this.Seconds * 10000000L) + (this.MicroSeconds * 10L));
             }
         }
 
@@ -146,8 +146,8 @@ namespace SharpPcap.LibPcap
                 var pkthdr = new PcapUnmanagedStructures.pcap_pkthdr_windows();
                 pkthdr.caplen = this.CaptureLength;
                 pkthdr.len = this.PacketLength;
-                pkthdr.ts.tv_sec = (int)this.Seconds;
-                pkthdr.ts.tv_usec = (int)this.MicroSeconds;
+                pkthdr.ts.tv_sec = (Int32)this.Seconds;
+                pkthdr.ts.tv_usec = (Int32)this.MicroSeconds;
 
                 hdrPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(PcapUnmanagedStructures.pcap_pkthdr_windows)));
                 Marshal.StructureToPtr(pkthdr, hdrPtr, true);

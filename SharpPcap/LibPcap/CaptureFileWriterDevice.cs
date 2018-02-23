@@ -32,7 +32,7 @@ namespace SharpPcap.LibPcap
     /// </summary>
     public class CaptureFileWriterDevice : PcapDevice
     {
-        private string m_pcapFile;
+        private readonly String m_pcapFile;
 
         /// <summary>
         /// Handle to an open dump file, not equal to IntPtr.Zero if a dump file is open
@@ -45,29 +45,29 @@ namespace SharpPcap.LibPcap
         /// <returns>
         /// A <see cref="System.Boolean"/>
         /// </returns>
-        protected bool DumpOpened
+        protected Boolean DumpOpened
         {
             get
             {
-                return (m_pcapDumpHandle != IntPtr.Zero);
+                return (this.m_pcapDumpHandle != IntPtr.Zero);
             }
         }
 
         /// <value>
         /// The name of the capture file
         /// </value>
-        public override string Name
+        public override String Name
         {
             get
             {
-                return m_pcapFile;
+                return this.m_pcapFile;
             }
         }
 
         /// <value>
         /// Description of the device
         /// </value>
-        public override string Description
+        public override String Description
         {
             get
             {
@@ -81,7 +81,7 @@ namespace SharpPcap.LibPcap
         /// <param name="captureFilename">
         /// A <see cref="System.String"/>
         /// </param>
-        public CaptureFileWriterDevice (string captureFilename) : this(captureFilename, FileMode.OpenOrCreate)
+        public CaptureFileWriterDevice (String captureFilename) : this(captureFilename, FileMode.OpenOrCreate)
         {
 
         }
@@ -95,7 +95,7 @@ namespace SharpPcap.LibPcap
         /// <param name="mode">
         /// A <see cref="FileMode"/>
         /// </param>
-        public CaptureFileWriterDevice(string captureFilename, FileMode mode) :
+        public CaptureFileWriterDevice(String captureFilename, FileMode mode) :
             this(LinkLayers.Ethernet, Pcap.MAX_PACKET_SIZE,
                  captureFilename, mode)
         {
@@ -111,7 +111,7 @@ namespace SharpPcap.LibPcap
         /// A <see cref="System.String"/>
         /// </param>
         public CaptureFileWriterDevice(LibPcapLiveDevice device,
-                                       string captureFilename) :
+                                       String captureFilename) :
             this((LinkLayers)LibPcapSafeNativeMethods.pcap_datalink(device.PcapHandle),
                  LibPcapSafeNativeMethods.pcap_snapshot(device.PcapHandle),
                  captureFilename,
@@ -133,7 +133,7 @@ namespace SharpPcap.LibPcap
         /// A <see cref="FileMode"/>
         /// </param>
         public CaptureFileWriterDevice(LibPcapLiveDevice device,
-                                       string captureFilename,
+                                       String captureFilename,
                                        FileMode mode) :
             this((LinkLayers)LibPcapSafeNativeMethods.pcap_datalink(device.PcapHandle),
                  LibPcapSafeNativeMethods.pcap_snapshot(device.PcapHandle),
@@ -159,16 +159,16 @@ namespace SharpPcap.LibPcap
         /// A <see cref="FileMode"/>
         /// </param>
         public CaptureFileWriterDevice(LinkLayers linkLayerType,
-                                       int? snapshotLength,
-                                       string captureFilename,
+                                       Int32? snapshotLength,
+                                       String captureFilename,
                                        FileMode mode)
         {
-            m_pcapFile = captureFilename;
+            this.m_pcapFile = captureFilename;
 
             // append isn't possible without some difficulty and not implemented yet
             if(mode == FileMode.Append)
             {
-                throw new System.InvalidOperationException("FileMode.Append is not supported, please contact the developers if you are interested in helping to implementing it");
+                throw new InvalidOperationException("FileMode.Append is not supported, please contact the developers if you are interested in helping to implementing it");
             }
 
             if(!snapshotLength.HasValue)
@@ -176,15 +176,15 @@ namespace SharpPcap.LibPcap
                 snapshotLength = Pcap.MAX_PACKET_SIZE;
             } else if(snapshotLength > Pcap.MAX_PACKET_SIZE)
             {
-                throw new System.InvalidOperationException("snapshotLength > Pcap.MAX_PACKET_SIZE");
+                throw new InvalidOperationException("snapshotLength > Pcap.MAX_PACKET_SIZE");
             }
 
             // set the device handle
-            PcapHandle = LibPcapSafeNativeMethods.pcap_open_dead((int)linkLayerType, snapshotLength.Value);
+            this.PcapHandle = LibPcapSafeNativeMethods.pcap_open_dead((Int32)linkLayerType, snapshotLength.Value);
 
-            m_pcapDumpHandle = LibPcapSafeNativeMethods.pcap_dump_open(PcapHandle, captureFilename);
-            if(m_pcapDumpHandle == IntPtr.Zero)
-                throw new PcapException("Error opening dump file '" + LastError + "'");
+            this.m_pcapDumpHandle = LibPcapSafeNativeMethods.pcap_dump_open(this.PcapHandle, captureFilename);
+            if(this.m_pcapDumpHandle == IntPtr.Zero)
+                throw new PcapException("Error opening dump file '" + this.LastError + "'");
         }
 
         /// <summary>
@@ -192,16 +192,16 @@ namespace SharpPcap.LibPcap
         /// </summary>
         public override void Close()
         {
-            if (!Opened)
+            if (!this.Opened)
                 return;
 
             base.Close();
 
             // close the dump handle
-            if (m_pcapDumpHandle != IntPtr.Zero)
+            if (this.m_pcapDumpHandle != IntPtr.Zero)
             {
-                LibPcapSafeNativeMethods.pcap_dump_close(m_pcapDumpHandle);
-                m_pcapDumpHandle = IntPtr.Zero;
+                LibPcapSafeNativeMethods.pcap_dump_close(this.m_pcapDumpHandle);
+                this.m_pcapDumpHandle = IntPtr.Zero;
             }
         }
 
@@ -211,7 +211,7 @@ namespace SharpPcap.LibPcap
         public override void Open()
         {
             // Nothing to do here, device is already opened and active upon construction
-            Active = true;
+            this.Active = true;
         }
 
         /// <summary>
@@ -233,10 +233,10 @@ namespace SharpPcap.LibPcap
         /// </summary>
         /// <param name="p">P.</param>
         /// <param name="h">The height.</param>
-        public void Write(byte[] p, PcapHeader h)
+        public void Write(Byte[] p, PcapHeader h)
         {
-            ThrowIfNotOpen("Cannot dump packet, device is not opened");
-            if(!DumpOpened)
+            this.ThrowIfNotOpen("Cannot dump packet, device is not opened");
+            if(!this.DumpOpened)
                 throw new DeviceNotReadyException("Cannot dump packet, dump file is not opened");
 
             //Marshal packet
@@ -247,7 +247,7 @@ namespace SharpPcap.LibPcap
             //Marshal header
             IntPtr hdrPtr = h.MarshalToIntPtr();
 
-            LibPcapSafeNativeMethods.pcap_dump(m_pcapDumpHandle, hdrPtr, pktPtr);
+            LibPcapSafeNativeMethods.pcap_dump(this.m_pcapDumpHandle, hdrPtr, pktPtr);
 
             Marshal.FreeHGlobal(pktPtr);
             Marshal.FreeHGlobal(hdrPtr);
@@ -257,9 +257,9 @@ namespace SharpPcap.LibPcap
         /// Writes a packet to the pcap dump file associated with this device.
         /// </summary>
         /// <param name="p">The packet to write</param>
-        public void Write(byte[] p)
+        public void Write(Byte[] p)
         {
-            Write(p, new PcapHeader(0, 0, (uint)p.Length, (uint)p.Length));
+            this.Write(p, new PcapHeader(0, 0, (UInt32)p.Length, (UInt32)p.Length));
         }
 
         /// <summary>
@@ -270,9 +270,9 @@ namespace SharpPcap.LibPcap
         {
             var data = p.Data;
             var timeval = p.Timeval;
-            var header = new PcapHeader((uint)timeval.Seconds, (uint)timeval.MicroSeconds,
-                                        (uint)data.Length, (uint)data.Length);
-            Write(data, header);
+            var header = new PcapHeader((UInt32)timeval.Seconds, (UInt32)timeval.MicroSeconds,
+                                        (UInt32)data.Length, (UInt32)data.Length);
+            this.Write(data, header);
         }
     }
 }

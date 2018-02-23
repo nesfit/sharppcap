@@ -41,7 +41,7 @@ namespace SharpPcap.WinPcap
         /// <summary>
         /// This holds byte received and packets received
         /// </summary>
-        private byte[]  m_pktData;
+        private readonly Byte[]  m_pktData;
 
         internal StatisticsModePacket(RawCapture p)
         {
@@ -56,7 +56,7 @@ namespace SharpPcap.WinPcap
         {
             get
             {
-                return BitConverter.ToInt64(m_pktData, 0);
+                return BitConverter.ToInt64(this.m_pktData, 0);
             }
         }
 
@@ -67,7 +67,7 @@ namespace SharpPcap.WinPcap
         {
             get
             {
-                return BitConverter.ToInt64(m_pktData, 8);
+                return BitConverter.ToInt64(this.m_pktData, 8);
             }
         }
     }

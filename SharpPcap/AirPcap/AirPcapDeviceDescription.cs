@@ -18,6 +18,8 @@ along with SharpPcap.  If not, see <http://www.gnu.org/licenses/>.
  * Copyright 2010-2011 Chris Morgan <chmorgan@gmail.com>
  */
 
+using System;
+
 namespace SharpPcap.AirPcap
 {
     /// <summary>
@@ -28,12 +30,12 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Device name
         /// </summary>
-        public string Name { get; set; }
+        public String Name { get; set; }
 
         /// <summary>
         /// Device description
         /// </summary>
-        public string Description { get; set; }
+        public String Description { get; set; }
 
         internal AirPcapDeviceDescription(AirPcapUnmanagedStructures.AirpcapDeviceDescription desc)
         {
@@ -47,10 +49,9 @@ namespace SharpPcap.AirPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("Name: {0}, Description: {1}",
-                                 Name, Description);
+            return String.Format("Name: {0}, Description: {1}", this.Name, this.Description);
         }
     }
 }

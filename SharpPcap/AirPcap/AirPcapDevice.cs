@@ -28,14 +28,14 @@ namespace SharpPcap.AirPcap
     /// <summary>
     /// AirPcap device
     /// </summary>
-    public class AirPcapDevice : SharpPcap.WinPcap.WinPcapDevice
+    public class AirPcapDevice : WinPcap.WinPcapDevice
     {
         /// <summary>
         /// See ThrowIfNotOpen(string ExceptionString)
         /// </summary>
         protected void ThrowIfNotOpen()
         {
-            ThrowIfNotOpen("");
+            this.ThrowIfNotOpen("");
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace SharpPcap.AirPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        new internal static string GetLastError(IntPtr AirPcapDeviceHandle)
+        new internal static String GetLastError(IntPtr AirPcapDeviceHandle)
         {
             IntPtr err_ptr = AirPcapSafeNativeMethods.AirpcapGetLastError(AirPcapDeviceHandle);
             return Marshal.PtrToStringAnsi(err_ptr);
@@ -65,9 +65,9 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// The last pcap error associated with this pcap device
         /// </summary>
-        public override string LastError
+        public override String LastError
         {
-            get { return GetLastError(AirPcapDeviceHandle); }
+            get { return GetLastError(this.AirPcapDeviceHandle); }
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace SharpPcap.AirPcap
             base.Open();
 
             // reteieve the airpcap device given the winpcap handle
-            AirPcapDeviceHandle = WinPcap.SafeNativeMethods.pcap_get_airpcap_handle(PcapHandle);
+            this.AirPcapDeviceHandle = WinPcap.SafeNativeMethods.pcap_get_airpcap_handle(this.PcapHandle);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace SharpPcap.AirPcap
             base.Open(mode);
 
             // reteieve the airpcap device given the winpcap handle
-            AirPcapDeviceHandle = WinPcap.SafeNativeMethods.pcap_get_airpcap_handle(PcapHandle);
+            this.AirPcapDeviceHandle = WinPcap.SafeNativeMethods.pcap_get_airpcap_handle(this.PcapHandle);
         }
 
         /// <summary>
@@ -105,12 +105,12 @@ namespace SharpPcap.AirPcap
         /// <param name="read_timeout">
         /// A <see cref="System.Int32"/>
         /// </param>
-        public override void Open(DeviceMode mode, int read_timeout)
+        public override void Open(DeviceMode mode, Int32 read_timeout)
         {
             base.Open(mode, read_timeout);
 
             // reteieve the airpcap device given the winpcap handle
-            AirPcapDeviceHandle = WinPcap.SafeNativeMethods.pcap_get_airpcap_handle(PcapHandle);
+            this.AirPcapDeviceHandle = WinPcap.SafeNativeMethods.pcap_get_airpcap_handle(this.PcapHandle);
         }
 
         /// <summary>
@@ -122,12 +122,12 @@ namespace SharpPcap.AirPcap
         /// <param name="read_timeout">
         /// A <see cref="System.Int32"/>
         /// </param>
-        public override void Open(WinPcap.OpenFlags flags, int read_timeout)
+        public override void Open(WinPcap.OpenFlags flags, Int32 read_timeout)
         {
             base.Open(flags, read_timeout);
 
             // reteieve the airpcap device given the winpcap handle
-            AirPcapDeviceHandle = WinPcap.SafeNativeMethods.pcap_get_airpcap_handle(PcapHandle);
+            this.AirPcapDeviceHandle = WinPcap.SafeNativeMethods.pcap_get_airpcap_handle(this.PcapHandle);
         }
 
         /// <summary>
@@ -135,11 +135,11 @@ namespace SharpPcap.AirPcap
         /// </summary>
         public override void Close()
         {
-            if (!Opened)
+            if (!this.Opened)
                 return;
 
             base.Close();
-            AirPcapDeviceHandle = IntPtr.Zero;
+            this.AirPcapDeviceHandle = IntPtr.Zero;
         }
 
         /// <summary>
@@ -149,10 +149,10 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 IntPtr capablitiesPointer;
-                if(!AirPcapSafeNativeMethods.AirpcapGetDeviceCapabilities(AirPcapDeviceHandle, out capablitiesPointer))
+                if(!AirPcapSafeNativeMethods.AirpcapGetDeviceCapabilities(this.AirPcapDeviceHandle, out capablitiesPointer))
                 {
                     throw new InvalidOperationException("error retrieving device capabilities");
                 }
@@ -164,25 +164,25 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Adapter channel
         /// </summary>
-        public uint Channel
+        public UInt32 Channel
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
                 UInt32 channel;
-                if (!AirPcapSafeNativeMethods.AirpcapGetDeviceChannel(AirPcapDeviceHandle, out channel))
+                if (!AirPcapSafeNativeMethods.AirpcapGetDeviceChannel(this.AirPcapDeviceHandle, out channel))
                 {
-                    throw new System.InvalidOperationException("Failed to retrieve channel");
+                    throw new InvalidOperationException("Failed to retrieve channel");
                 }
                 return channel;
             }
 
             set
             {
-                ThrowIfNotOpen();
-                if (!AirPcapSafeNativeMethods.AirpcapSetDeviceChannel(AirPcapDeviceHandle, value))
+                this.ThrowIfNotOpen();
+                if (!AirPcapSafeNativeMethods.AirpcapSetDeviceChannel(this.AirPcapDeviceHandle, value))
                 {
-                    throw new System.InvalidOperationException("Failed to set channel");
+                    throw new InvalidOperationException("Failed to set channel");
                 }
             }
         }
@@ -190,27 +190,27 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Adapter frequency
         /// </summary>
-        public uint Frequency
+        public UInt32 Frequency
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
                 AirPcapUnmanagedStructures.AirpcapChannelInfo channelInfo;
-                if (!AirPcapSafeNativeMethods.AirpcapGetDeviceChannelEx(AirPcapDeviceHandle, out channelInfo))
+                if (!AirPcapSafeNativeMethods.AirpcapGetDeviceChannelEx(this.AirPcapDeviceHandle, out channelInfo))
                 {
-                    throw new System.InvalidOperationException("Failed to retrieve frequency");
+                    throw new InvalidOperationException("Failed to retrieve frequency");
                 }
                 return channelInfo.Frequency;
             }
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
                 AirPcapUnmanagedStructures.AirpcapChannelInfo channelInfo = new AirPcapUnmanagedStructures.AirpcapChannelInfo();
                 channelInfo.Frequency = value;
-                if (!AirPcapSafeNativeMethods.AirpcapSetDeviceChannelEx(AirPcapDeviceHandle, channelInfo))
+                if (!AirPcapSafeNativeMethods.AirpcapSetDeviceChannelEx(this.AirPcapDeviceHandle, channelInfo))
                 {
-                    throw new System.InvalidOperationException("Failed to set frequency");
+                    throw new InvalidOperationException("Failed to set frequency");
                 }
             }
         }
@@ -222,12 +222,12 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 AirPcapUnmanagedStructures.AirpcapChannelInfo channelInfo;
-                if(!AirPcapSafeNativeMethods.AirpcapGetDeviceChannelEx(AirPcapDeviceHandle, out channelInfo))
+                if(!AirPcapSafeNativeMethods.AirpcapGetDeviceChannelEx(this.AirPcapDeviceHandle, out channelInfo))
                 {
-                    throw new System.InvalidOperationException("Failed to get channel ex");
+                    throw new InvalidOperationException("Failed to get channel ex");
                 }
 
                 return new AirPcapChannelInfo(channelInfo);
@@ -235,12 +235,12 @@ namespace SharpPcap.AirPcap
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 var channelInfo = value.UnmanagedInfo;
-                if (!AirPcapSafeNativeMethods.AirpcapSetDeviceChannelEx(AirPcapDeviceHandle, channelInfo))
+                if (!AirPcapSafeNativeMethods.AirpcapSetDeviceChannelEx(this.AirPcapDeviceHandle, channelInfo))
                 {
-                    throw new System.InvalidOperationException("Failed to set channel ex");
+                    throw new InvalidOperationException("Failed to set channel ex");
                 }
             }
         }
@@ -250,9 +250,9 @@ namespace SharpPcap.AirPcap
         /// </summary>
         /// <param name="keyCount"></param>
         /// <returns></returns>
-        private static int KeyCollectionSize(int keyCount)
+        private static Int32 KeyCollectionSize(Int32 keyCount)
         {
-            int memorySize = (int)(Marshal.SizeOf(typeof(AirPcapUnmanagedStructures.AirpcapKeysCollection)) +
+            Int32 memorySize = (Int32)(Marshal.SizeOf(typeof(AirPcapUnmanagedStructures.AirpcapKeysCollection)) +
                                    (Marshal.SizeOf(typeof(AirPcapUnmanagedStructures.AirpcapKey)) * keyCount));
             return memorySize;
         }
@@ -273,7 +273,7 @@ namespace SharpPcap.AirPcap
             // go through the keys, offset from the start of the collection to the first key 
             IntPtr pKeys = new IntPtr(pKeysCollection.ToInt64() + Marshal.SizeOf(typeof(AirPcapUnmanagedStructures.AirpcapKeysCollection)));
 
-            for (int x = 0; x < keysCollection.nKeys; x++)
+            for (Int32 x = 0; x < keysCollection.nKeys; x++)
             {
                 // convert the key entry from unmanaged memory to managed memory
                 var airpcapKey = (AirPcapUnmanagedStructures.AirpcapKey)Marshal.PtrToStructure(pKeys, typeof(AirPcapUnmanagedStructures.AirpcapKey));
@@ -296,12 +296,12 @@ namespace SharpPcap.AirPcap
         private static IntPtr KeysToIntPtr(List<AirPcapKey> value)
         {
             // allocate memory for the entire collection
-            IntPtr pKeyCollection = Marshal.AllocHGlobal(AirPcapDevice.KeyCollectionSize(value.Count));
+            IntPtr pKeyCollection = Marshal.AllocHGlobal(KeyCollectionSize(value.Count));
             var pKeyCollectionPosition = pKeyCollection;
 
             // build the collection struct
             var collection = new AirPcapUnmanagedStructures.AirpcapKeysCollection();
-            collection.nKeys = (uint)value.Count;
+            collection.nKeys = (UInt32)value.Count;
 
             // convert this collection to unmanaged memory
             Marshal.StructureToPtr(collection, pKeyCollectionPosition, false);
@@ -311,15 +311,15 @@ namespace SharpPcap.AirPcap
                                         Marshal.SizeOf(typeof(AirPcapUnmanagedStructures.AirpcapKeysCollection)));
 
             // write the keys to memory
-            for (int x = 0; x < value.Count; x++)
+            for (Int32 x = 0; x < value.Count; x++)
             {
                 var key = new AirPcapUnmanagedStructures.AirpcapKey();
                 key.KeyType = value[x].Type;
-                key.KeyLen = (uint)value[x].Data.Length;
+                key.KeyLen = (UInt32)value[x].Data.Length;
 
                 // make sure we have the right size byte[], the fields in the structure passed to Marshal.StructureToPtr()
                 // have to match the specified sizes or an exception will be thrown
-                key.KeyData = new byte[AirPcapUnmanagedStructures.WepKeyMaxSize];
+                key.KeyData = new Byte[AirPcapUnmanagedStructures.WepKeyMaxSize];
                 Array.Copy(value[x].Data, key.KeyData, value[x].Data.Length);
 
                 // copy the managed memory into the unmanaged memory
@@ -339,11 +339,11 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 // Request the key collection size
-                uint keysCollectionSize = 0;
-                if (AirPcapSafeNativeMethods.AirpcapGetDeviceKeys(AirPcapDeviceHandle, IntPtr.Zero,
+                UInt32 keysCollectionSize = 0;
+                if (AirPcapSafeNativeMethods.AirpcapGetDeviceKeys(this.AirPcapDeviceHandle, IntPtr.Zero,
                                                               ref keysCollectionSize))
                 {
                     // return value of true with an input size of zero indicates there are no
@@ -353,14 +353,14 @@ namespace SharpPcap.AirPcap
 
                 // now that we have the desired collection size, allocate the appropriate memory
                 //var memorySize = AirPcapDevice.KeyCollectionSize(keysCollectionSize);
-                var pKeysCollection = Marshal.AllocHGlobal((int)keysCollectionSize);
+                var pKeysCollection = Marshal.AllocHGlobal((Int32)keysCollectionSize);
 
                 try
                 {
-                    if (!AirPcapSafeNativeMethods.AirpcapGetDeviceKeys(AirPcapDeviceHandle, pKeysCollection,
+                    if (!AirPcapSafeNativeMethods.AirpcapGetDeviceKeys(this.AirPcapDeviceHandle, pKeysCollection,
                                                                       ref keysCollectionSize))
                     {
-                        throw new System.InvalidOperationException("Unexpected false from AirpcapGetDeviceKeys()");
+                        throw new InvalidOperationException("Unexpected false from AirpcapGetDeviceKeys()");
                     }
 
                     // convert the unmanaged memory to an array of keys
@@ -374,14 +374,14 @@ namespace SharpPcap.AirPcap
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 var pKeyCollection = KeysToIntPtr(value);
                 try
                 {
-                    if (!AirPcapSafeNativeMethods.AirpcapSetDeviceKeys(AirPcapDeviceHandle, pKeyCollection))
+                    if (!AirPcapSafeNativeMethods.AirpcapSetDeviceKeys(this.AirPcapDeviceHandle, pKeyCollection))
                     {
-                        throw new System.InvalidOperationException("Unable to set device keys");
+                        throw new InvalidOperationException("Unable to set device keys");
                     }
                 }
                 finally
@@ -398,11 +398,11 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 // Request the key collection size
-                uint keysCollectionSize = 0;
-                if (AirPcapSafeNativeMethods.AirpcapGetDriverKeys(AirPcapDeviceHandle, IntPtr.Zero,
+                UInt32 keysCollectionSize = 0;
+                if (AirPcapSafeNativeMethods.AirpcapGetDriverKeys(this.AirPcapDeviceHandle, IntPtr.Zero,
                                                                   ref keysCollectionSize))
                 {
                     // return value of true with an input size of zero indicates there are no
@@ -412,14 +412,14 @@ namespace SharpPcap.AirPcap
 
                 // now that we have the desired collection size, allocate the appropriate memory
                 //var memorySize = AirPcapDevice.KeyCollectionSize(keysCollectionSize);
-                var pKeysCollection = Marshal.AllocHGlobal((int)keysCollectionSize);
+                var pKeysCollection = Marshal.AllocHGlobal((Int32)keysCollectionSize);
 
                 try
                 {
-                    if (!AirPcapSafeNativeMethods.AirpcapGetDriverKeys(AirPcapDeviceHandle, pKeysCollection,
+                    if (!AirPcapSafeNativeMethods.AirpcapGetDriverKeys(this.AirPcapDeviceHandle, pKeysCollection,
                                                                        ref keysCollectionSize))
                     {
-                        throw new System.InvalidOperationException("Unexpected false from AirpcapGetDriverKeys()");
+                        throw new InvalidOperationException("Unexpected false from AirpcapGetDriverKeys()");
                     }
 
                     // convert the unmanaged memory to an array of keys
@@ -433,14 +433,14 @@ namespace SharpPcap.AirPcap
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 var pKeyCollection = KeysToIntPtr(value);
                 try
                 {
-                    if (!AirPcapSafeNativeMethods.AirpcapSetDriverKeys(AirPcapDeviceHandle, pKeyCollection))
+                    if (!AirPcapSafeNativeMethods.AirpcapSetDriverKeys(this.AirPcapDeviceHandle, pKeyCollection))
                     {
-                        throw new System.InvalidOperationException("Unable to set driver keys");
+                        throw new InvalidOperationException("Unable to set driver keys");
                     }
                 }
                 finally
@@ -457,23 +457,23 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 AirPcapDecryptionState state;
-                if (!AirPcapSafeNativeMethods.AirpcapGetDecryptionState(AirPcapDeviceHandle, out state))
+                if (!AirPcapSafeNativeMethods.AirpcapGetDecryptionState(this.AirPcapDeviceHandle, out state))
                 {
-                    throw new System.InvalidOperationException("Failed to get decryption state");
+                    throw new InvalidOperationException("Failed to get decryption state");
                 }
                 return state;
             }
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                if (!AirPcapSafeNativeMethods.AirpcapSetDecryptionState(AirPcapDeviceHandle, value))
+                if (!AirPcapSafeNativeMethods.AirpcapSetDecryptionState(this.AirPcapDeviceHandle, value))
                 {
-                    throw new System.InvalidOperationException("Failed to set decryption state");
+                    throw new InvalidOperationException("Failed to set decryption state");
                 }
             }
         }
@@ -485,23 +485,23 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 AirPcapDecryptionState state;
-                if (!AirPcapSafeNativeMethods.AirpcapGetDriverDecryptionState(AirPcapDeviceHandle, out state))
+                if (!AirPcapSafeNativeMethods.AirpcapGetDriverDecryptionState(this.AirPcapDeviceHandle, out state))
                 {
-                    throw new System.InvalidOperationException("Failed to get driver decryption state");
+                    throw new InvalidOperationException("Failed to get driver decryption state");
                 }
                 return state;
             }
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                if(AirPcapSafeNativeMethods.AirpcapSetDriverDecryptionState(AirPcapDeviceHandle, value))
+                if(AirPcapSafeNativeMethods.AirpcapSetDriverDecryptionState(this.AirPcapDeviceHandle, value))
                 {
-                    throw new System.InvalidOperationException("Failed to set decryption state");
+                    throw new InvalidOperationException("Failed to set decryption state");
                 }
             }
         }
@@ -509,27 +509,27 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Configures the adapter on whether to include the MAC Frame Check Sequence in the captured packets.
         /// </summary>
-        public bool FcsPresence
+        public Boolean FcsPresence
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                bool isFcsPresent;
-                if (!AirPcapSafeNativeMethods.AirpcapGetFcsPresence(AirPcapDeviceHandle, out isFcsPresent))
+                Boolean isFcsPresent;
+                if (!AirPcapSafeNativeMethods.AirpcapGetFcsPresence(this.AirPcapDeviceHandle, out isFcsPresent))
                 {
-                    throw new System.InvalidOperationException("Failed to get fcs presence");
+                    throw new InvalidOperationException("Failed to get fcs presence");
                 }
                 return isFcsPresent;
             }
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                if (!AirPcapSafeNativeMethods.AirpcapSetFcsPresence(AirPcapDeviceHandle, value))
+                if (!AirPcapSafeNativeMethods.AirpcapSetFcsPresence(this.AirPcapDeviceHandle, value))
                 {
-                    throw new System.InvalidOperationException("Failed to set fcs presence");
+                    throw new InvalidOperationException("Failed to set fcs presence");
                 }
             }
         }
@@ -542,23 +542,23 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 AirPcapValidationType validationType;
-                if (!AirPcapSafeNativeMethods.AirpcapGetFcsValidation(AirPcapDeviceHandle, out validationType))
+                if (!AirPcapSafeNativeMethods.AirpcapGetFcsValidation(this.AirPcapDeviceHandle, out validationType))
                 {
-                    throw new System.InvalidOperationException("Failed to get fcs validation");
+                    throw new InvalidOperationException("Failed to get fcs validation");
                 }
                 return validationType;
             }
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                if (!AirPcapSafeNativeMethods.AirpcapSetFcsValidation(AirPcapDeviceHandle, value))
+                if (!AirPcapSafeNativeMethods.AirpcapSetFcsValidation(this.AirPcapDeviceHandle, value))
                 {
-                    throw new System.InvalidOperationException("failed to set fcs validation");
+                    throw new InvalidOperationException("failed to set fcs validation");
                 }
             }
         }
@@ -566,27 +566,27 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Kernel packet buffer size for this adapter in bytes
         /// </summary>
-        public override uint KernelBufferSize
+        public override UInt32 KernelBufferSize
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                uint kernelBufferSize;
-                if(!AirPcapSafeNativeMethods.AirpcapGetKernelBufferSize(AirPcapDeviceHandle, out kernelBufferSize))
+                UInt32 kernelBufferSize;
+                if(!AirPcapSafeNativeMethods.AirpcapGetKernelBufferSize(this.AirPcapDeviceHandle, out kernelBufferSize))
                 {
-                    throw new System.InvalidOperationException("failed to get kernel buffer size");
+                    throw new InvalidOperationException("failed to get kernel buffer size");
                 }
                 return kernelBufferSize;
             }
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                if (!AirPcapSafeNativeMethods.AirpcapSetKernelBuffer(AirPcapDeviceHandle, value))
+                if (!AirPcapSafeNativeMethods.AirpcapSetKernelBuffer(this.AirPcapDeviceHandle, value))
                 {
-                    throw new System.InvalidOperationException("failed to set kernel buffer size");
+                    throw new InvalidOperationException("failed to set kernel buffer size");
                 }
             }
         }
@@ -594,15 +594,15 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Number of leds on this adapter
         /// </summary>
-        public int LedCount
+        public Int32 LedCount
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 UInt32 numberOfLeds;
-                AirPcapSafeNativeMethods.AirpcapGetLedsNumber(AirPcapDeviceHandle, out numberOfLeds);
-                return (int)numberOfLeds;
+                AirPcapSafeNativeMethods.AirpcapGetLedsNumber(this.AirPcapDeviceHandle, out numberOfLeds);
+                return (Int32)numberOfLeds;
             }
         }
 
@@ -631,17 +631,17 @@ namespace SharpPcap.AirPcap
         /// <param name="newLedState">
         /// A <see cref="LedState"/>
         /// </param>
-        public void Led(int ledIndex, LedState newLedState)
+        public void Led(Int32 ledIndex, LedState newLedState)
         {
-            ThrowIfNotOpen();
+            this.ThrowIfNotOpen();
 
             if (newLedState == LedState.On)
             {
-                AirPcapSafeNativeMethods.AirpcapTurnLedOn(AirPcapDeviceHandle, (UInt32)ledIndex);
+                AirPcapSafeNativeMethods.AirpcapTurnLedOn(this.AirPcapDeviceHandle, (UInt32)ledIndex);
             }
             else if (newLedState == LedState.Off)
             {
-                AirPcapSafeNativeMethods.AirpcapTurnLedOff(AirPcapDeviceHandle, (UInt32)ledIndex);
+                AirPcapSafeNativeMethods.AirpcapTurnLedOff(this.AirPcapDeviceHandle, (UInt32)ledIndex);
             }
         }
 
@@ -652,11 +652,11 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen("Requires an open device");
+                this.ThrowIfNotOpen("Requires an open device");
 
                 AirPcapLinkTypes linkType;
 
-                AirPcapSafeNativeMethods.AirpcapGetLinkType(AirPcapDeviceHandle,
+                AirPcapSafeNativeMethods.AirpcapGetLinkType(this.AirPcapDeviceHandle,
                                                             out linkType);
 
 
@@ -665,9 +665,9 @@ namespace SharpPcap.AirPcap
 
             set
             {
-                ThrowIfNotOpen("Requires an open device");
+                this.ThrowIfNotOpen("Requires an open device");
 
-                if (!AirPcapSafeNativeMethods.AirpcapSetLinkType(AirPcapDeviceHandle,
+                if (!AirPcapSafeNativeMethods.AirpcapSetLinkType(this.AirPcapDeviceHandle,
                                                                 value))
                 {
                     throw new InvalidOperationException("Setting link type failed");
@@ -684,7 +684,7 @@ namespace SharpPcap.AirPcap
             {
                 var packetDotNetLinkLayer = LinkLayers.Null;
 
-                switch(AirPcapLinkType)
+                switch(this.AirPcapLinkType)
                 {
                     case AirPcapLinkTypes._802_11_PLUS_RADIO:
                         packetDotNetLinkLayer = LinkLayers.Ieee80211_Radio;
@@ -696,7 +696,7 @@ namespace SharpPcap.AirPcap
                         packetDotNetLinkLayer = LinkLayers.PerPacketInformation;
                         break;
                     default:
-                        throw new System.InvalidOperationException("Unexpected linkType " + AirPcapLinkType);
+                        throw new InvalidOperationException("Unexpected linkType " + this.AirPcapLinkType);
                 }
 
                 return packetDotNetLinkLayer;
@@ -706,7 +706,7 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// TODO: Get this from packet.net or another place in System.Net.xxx?
         /// </summary>
-        private const int MacAddressSizeInBytes = 6;
+        private const Int32 MacAddressSizeInBytes = 6;
 
         /// <summary>
         /// Mac address
@@ -715,15 +715,15 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                var address = new byte[MacAddressSizeInBytes];
+                var address = new Byte[MacAddressSizeInBytes];
                 IntPtr addressUnmanaged = Marshal.AllocHGlobal(MacAddressSizeInBytes);
                 try
                 {
-                    if (!AirPcapSafeNativeMethods.AirpcapGetMacAddress(AirPcapDeviceHandle, addressUnmanaged))
+                    if (!AirPcapSafeNativeMethods.AirpcapGetMacAddress(this.AirPcapDeviceHandle, addressUnmanaged))
                     {
-                        throw new System.InvalidOperationException("Unable to get mac address");
+                        throw new InvalidOperationException("Unable to get mac address");
                     }
 
                     Marshal.Copy(addressUnmanaged, address, 0, address.Length);
@@ -738,15 +738,15 @@ namespace SharpPcap.AirPcap
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 var address = value.GetAddressBytes();
                 var addressUnmanaged = Marshal.AllocHGlobal(address.Length);
                 try
                 {
-                    if (!AirPcapSafeNativeMethods.AirpcapSetMacAddress(AirPcapDeviceHandle, addressUnmanaged))
+                    if (!AirPcapSafeNativeMethods.AirpcapSetMacAddress(this.AirPcapDeviceHandle, addressUnmanaged))
                     {
-                        throw new System.InvalidOperationException("Unable to set mac address");
+                        throw new InvalidOperationException("Unable to set mac address");
                     }
                 }
                 finally
@@ -763,23 +763,23 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 AirPcapMacFlags macFlags;
-                if (!AirPcapSafeNativeMethods.AirpcapGetDeviceMacFlags(AirPcapDeviceHandle, out macFlags))
+                if (!AirPcapSafeNativeMethods.AirpcapGetDeviceMacFlags(this.AirPcapDeviceHandle, out macFlags))
                 {
-                    throw new System.InvalidOperationException("Failed to get device mac flags");
+                    throw new InvalidOperationException("Failed to get device mac flags");
                 }
                 return macFlags;
             }
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                if (!AirPcapSafeNativeMethods.AirpcapSetDeviceMacFlags(AirPcapDeviceHandle, value))
+                if (!AirPcapSafeNativeMethods.AirpcapSetDeviceMacFlags(this.AirPcapDeviceHandle, value))
                 {
-                    throw new System.InvalidOperationException("Failed to set device mac flags");
+                    throw new InvalidOperationException("Failed to set device mac flags");
                 }
             }
         }
@@ -791,7 +791,7 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                return new AirPcapStatistics(AirPcapDeviceHandle);
+                return new AirPcapStatistics(this.AirPcapDeviceHandle);
             }
         }
 
@@ -802,18 +802,18 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 var retval = new List<AirPcapChannelInfo>();
                 IntPtr pChannelInfo;
-                uint numChannelInfo;
+                UInt32 numChannelInfo;
 
-                if (!AirPcapSafeNativeMethods.AirpcapGetDeviceSupportedChannels(AirPcapDeviceHandle, out pChannelInfo, out numChannelInfo))
+                if (!AirPcapSafeNativeMethods.AirpcapGetDeviceSupportedChannels(this.AirPcapDeviceHandle, out pChannelInfo, out numChannelInfo))
                 {
-                    throw new System.InvalidOperationException("Failed to get device supported channels");
+                    throw new InvalidOperationException("Failed to get device supported channels");
                 }
 
-                for (int x = 0; x < numChannelInfo; x++)
+                for (Int32 x = 0; x < numChannelInfo; x++)
                 {
                     var unmanagedChannelInfo = (AirPcapUnmanagedStructures.AirpcapChannelInfo)Marshal.PtrToStructure(pChannelInfo,
                                                                                                             typeof(AirPcapUnmanagedStructures.AirpcapChannelInfo));
@@ -833,27 +833,27 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Transmit power
         /// </summary>
-        public uint TxPower
+        public UInt32 TxPower
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                uint power;
-                if (!AirPcapSafeNativeMethods.AirpcapGetTxPower(AirPcapDeviceHandle, out power))
+                UInt32 power;
+                if (!AirPcapSafeNativeMethods.AirpcapGetTxPower(this.AirPcapDeviceHandle, out power))
                 {
-                    throw new System.NotSupportedException("Unable to retrieve the tx power for this adapter");
+                    throw new NotSupportedException("Unable to retrieve the tx power for this adapter");
                 }
                 return power;
             }
 
             set
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
-                if (!AirPcapSafeNativeMethods.AirpcapSetTxPower(AirPcapDeviceHandle, value))
+                if (!AirPcapSafeNativeMethods.AirpcapSetTxPower(this.AirPcapDeviceHandle, value))
                 {
-                    throw new System.NotSupportedException("Unable to set the tx power for this adapter");
+                    throw new NotSupportedException("Unable to set the tx power for this adapter");
                 }
             }
         }
@@ -865,14 +865,14 @@ namespace SharpPcap.AirPcap
         {
             get
             {
-                ThrowIfNotOpen();
+                this.ThrowIfNotOpen();
 
                 var pTimestamp = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(AirPcapUnmanagedStructures.AirpcapDeviceTimestamp)));
                 try
                 {
-                    if (!AirPcapSafeNativeMethods.AirpcapGetDeviceTimestamp(AirPcapDeviceHandle, pTimestamp))
+                    if (!AirPcapSafeNativeMethods.AirpcapGetDeviceTimestamp(this.AirPcapDeviceHandle, pTimestamp))
                     {
-                        throw new System.NotSupportedException("Failed to get device timestamp");
+                        throw new NotSupportedException("Failed to get device timestamp");
                     }
 
                     var timestamp = (AirPcapUnmanagedStructures.AirpcapDeviceTimestamp)Marshal.PtrToStructure(pTimestamp,
@@ -898,10 +898,10 @@ namespace SharpPcap.AirPcap
             //
             // Get the read event
             //
-            if (!AirPcapSafeNativeMethods.AirpcapGetReadEvent(AirPcapDeviceHandle, out ReadEvent))
+            if (!AirPcapSafeNativeMethods.AirpcapGetReadEvent(this.AirPcapDeviceHandle, out ReadEvent))
             {
-                SendCaptureStoppedEvent(CaptureStoppedEventStatus.ErrorWhileCapturing);
-                Close();
+                this.SendCaptureStoppedEvent(CaptureStoppedEventStatus.ErrorWhileCapturing);
+                this.Close();
                 return;
             }
 
@@ -913,27 +913,27 @@ namespace SharpPcap.AirPcap
 
             List<RawCapture> packets;
 
-            while (!shouldCaptureThreadStop)
+            while (!this.shouldCaptureThreadStop)
             {
                 // capture the packets
-                if (!AirPcapSafeNativeMethods.AirpcapRead(AirPcapDeviceHandle,
+                if (!AirPcapSafeNativeMethods.AirpcapRead(this.AirPcapDeviceHandle,
                     packetBuffer,
-                   (uint)packetBufferSize,
+                   (UInt32)packetBufferSize,
                     out BytesReceived))
                 {
                     Marshal.FreeHGlobal(packetBuffer);
-                    Close();
-                    SendCaptureStoppedEvent(CaptureStoppedEventStatus.ErrorWhileCapturing);
+                    this.Close();
+                    this.SendCaptureStoppedEvent(CaptureStoppedEventStatus.ErrorWhileCapturing);
                     return;
                 }
 
-                var bufferEnd = new IntPtr(packetBuffer.ToInt64() + (long)BytesReceived);
+                var bufferEnd = new IntPtr(packetBuffer.ToInt64() + (Int64)BytesReceived);
 
-                MarshalPackets(packetBuffer, bufferEnd, out packets);
+                this.MarshalPackets(packetBuffer, bufferEnd, out packets);
 
                 foreach (var p in packets)
                 {
-                    SendPacketArrivalEvent(p);
+                    this.SendPacketArrivalEvent(p);
                 }
 
                 // wait until some packets are available. This prevents polling and keeps the CPU low. 
@@ -954,7 +954,7 @@ namespace SharpPcap.AirPcap
         {
             RawCapture p;
 
-            var linkType = LinkType;
+            var linkType = this.LinkType;
 
             packets = new List<RawCapture>();
 
@@ -968,8 +968,8 @@ namespace SharpPcap.AirPcap
                 // advance the pointer to the packet data and marshal that data
                 // into a managed buffer
                 bufferPointer = new IntPtr(bufferPointer.ToInt64() + header.Hdrlen);
-                var pkt_data = new byte[header.Caplen];
-                Marshal.Copy(bufferPointer, pkt_data, 0, (int)header.Caplen);
+                var pkt_data = new Byte[header.Caplen];
+                Marshal.Copy(bufferPointer, pkt_data, 0, (Int32)header.Caplen);
 
                 p = new RawCapture(linkType,
                                    new PosixTimeval(header.TsSec,
@@ -980,20 +980,20 @@ namespace SharpPcap.AirPcap
 
                 // advance the pointer by the size of the data
                 // and round up to the next word offset since each frame header is on a word boundry
-                int alignment = 4;
+                Int32 alignment = 4;
                 var pointer = bufferPointer.ToInt64() + header.Caplen;
-                pointer = AirPcapDevice.RoundUp(pointer, alignment);
+                pointer = RoundUp(pointer, alignment);
                 bufferPointer = new IntPtr(pointer);
             }
         }
 
-        private static long RoundUp(long num, int multiple)
+        private static Int64 RoundUp(Int64 num, Int32 multiple)
         {
             if (multiple == 0)
                 return 0;
-            int add = multiple / Math.Abs(multiple);
+            Int32 add = multiple / Math.Abs(multiple);
             return ((num + multiple - add) / multiple) * multiple;
         }
-        internal static int AIRPCAP_ERRBUF_SIZE = 512;
+        internal static Int32 AIRPCAP_ERRBUF_SIZE = 512;
     }
 }

@@ -67,14 +67,14 @@ namespace SharpPcap.LibPcap
         /// </summary>
         public PhysicalAddress hardwareAddress;
 
-        private int _sa_family;
+        private readonly Int32 _sa_family;
 
         /// <summary>
         /// Address family
         /// </summary>
-        public int sa_family
+        public Int32 sa_family
         {
-            get { return _sa_family; }
+            get { return this._sa_family; }
         }
 
         /// <summary>
@@ -100,51 +100,53 @@ namespace SharpPcap.LibPcap
                                                      typeof(PcapUnmanagedStructures.sockaddr));
 
             // record the sa_family for informational purposes
-            _sa_family = saddr.sa_family;
+            this._sa_family = saddr.sa_family;
 
-            byte[] addressBytes;
+            Byte[] addressBytes;
             if(saddr.sa_family == Pcap.AF_INET)
             {
-                type = AddressTypes.AF_INET_AF_INET6;
+                this.type = AddressTypes.AF_INET_AF_INET6;
                 PcapUnmanagedStructures.sockaddr_in saddr_in = 
                     (PcapUnmanagedStructures.sockaddr_in)Marshal.PtrToStructure(sockaddrPtr,
                                                                                 typeof(PcapUnmanagedStructures.sockaddr_in));
-                ipAddress = new System.Net.IPAddress(saddr_in.sin_addr.s_addr);
+                this.ipAddress = new System.Net.IPAddress(saddr_in.sin_addr.s_addr);
             } else if(saddr.sa_family == Pcap.AF_INET6)
             {
-                type = AddressTypes.AF_INET_AF_INET6;
-                addressBytes = new byte[16];
+                this.type = AddressTypes.AF_INET_AF_INET6;
+                addressBytes = new Byte[16];
                 PcapUnmanagedStructures.sockaddr_in6 sin6 =
                     (PcapUnmanagedStructures.sockaddr_in6)Marshal.PtrToStructure(sockaddrPtr,
                                                          typeof(PcapUnmanagedStructures.sockaddr_in6));
                 Array.Copy(sin6.sin6_addr, addressBytes, addressBytes.Length);
-                ipAddress = new System.Net.IPAddress(addressBytes);
+                this.ipAddress = new System.Net.IPAddress(addressBytes);
             } else if(saddr.sa_family == Pcap.AF_PACKET)
             {
-                type = AddressTypes.HARDWARE;
+                this.type = AddressTypes.HARDWARE;
 
                 PcapUnmanagedStructures.sockaddr_ll saddr_ll =
                     (PcapUnmanagedStructures.sockaddr_ll)Marshal.PtrToStructure(sockaddrPtr,
                                                       typeof(PcapUnmanagedStructures.sockaddr_ll));
 
-                byte[] hardwareAddressBytes = new byte[saddr_ll.sll_halen];
-                for(int x = 0; x < saddr_ll.sll_halen; x++)
+                Byte[] hardwareAddressBytes = new Byte[saddr_ll.sll_halen];
+                for(Int32 x = 0; x < saddr_ll.sll_halen; x++)
                 {
                     hardwareAddressBytes[x] = saddr_ll.sll_addr[x];
                 }
-                hardwareAddress = new PhysicalAddress(hardwareAddressBytes); // copy into the PhysicalAddress class
+
+                this.hardwareAddress = new PhysicalAddress(hardwareAddressBytes); // copy into the PhysicalAddress class
             } else
             {
-                type = AddressTypes.UNKNOWN;
+                this.type = AddressTypes.UNKNOWN;
 
                 // place the sockaddr.sa_data into the hardware address just in case
                 // someone wants access to the bytes
-                byte[] hardwareAddressBytes = new byte[saddr.sa_data.Length];
-                for(int x = 0; x < saddr.sa_data.Length; x++)
+                Byte[] hardwareAddressBytes = new Byte[saddr.sa_data.Length];
+                for(Int32 x = 0; x < saddr.sa_data.Length; x++)
                 {
                     hardwareAddressBytes[x] = saddr.sa_data[x];
                 }
-                hardwareAddress = new PhysicalAddress(hardwareAddressBytes);
+
+                this.hardwareAddress = new PhysicalAddress(hardwareAddressBytes);
             }
         }
 
@@ -154,15 +156,15 @@ namespace SharpPcap.LibPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        public override string ToString()
+        public override String ToString()
         {
-            if(type == AddressTypes.AF_INET_AF_INET6)
+            if(this.type == AddressTypes.AF_INET_AF_INET6)
             {
-                return ipAddress.ToString();
-            } else if(type == AddressTypes.HARDWARE)
+                return this.ipAddress.ToString();
+            } else if(this.type == AddressTypes.HARDWARE)
             {
-                return "HW addr: " + hardwareAddress.ToString();
-            } else if(type == AddressTypes.UNKNOWN)
+                return "HW addr: " + this.hardwareAddress.ToString();
+            } else if(this.type == AddressTypes.UNKNOWN)
             {
                 return String.Empty;
             }

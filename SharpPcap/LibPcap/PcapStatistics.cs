@@ -30,17 +30,17 @@ namespace SharpPcap.LibPcap
         /// <value>
         /// Number of packets received
         /// </value>
-        public uint ReceivedPackets { get; set; }
+        public UInt32 ReceivedPackets { get; set; }
 
         /// <value>
         /// Number of packets dropped
         /// </value>
-        public uint DroppedPackets { get; set; }
+        public UInt32 DroppedPackets { get; set; }
 
         /// <value>
         /// Number of interface dropped packets
         /// </value>
-        public uint InterfaceDroppedPackets { get; set; }
+        public UInt32 InterfaceDroppedPackets { get; set; }
 
         internal PcapStatistics() { }
 
@@ -73,7 +73,7 @@ namespace SharpPcap.LibPcap
             {
             case PcapUnmanagedStructures.PcapStatReturnValue.Error:
                 // retrieve the error information
-                var error = LibPcapLiveDevice.GetLastError(pcap_t);
+                var error = PcapDevice.GetLastError(pcap_t);
 
                 // free the stats memory so we don't leak before we throw
                 Marshal.FreeHGlobal(stat);
@@ -91,8 +91,8 @@ namespace SharpPcap.LibPcap
                                                                                                  typeof(PcapUnmanagedStructures.pcap_stat_unix));
 
                 // copy the values
-                this.ReceivedPackets = (uint)managedStat.ps_recv;
-                this.DroppedPackets = (uint)managedStat.ps_drop;
+                this.ReceivedPackets = (UInt32)managedStat.ps_recv;
+                this.DroppedPackets = (UInt32)managedStat.ps_drop;
 //                this.InterfaceDroppedPackets = (uint)managedStat.ps_ifdrop;
             } else
             {
@@ -100,8 +100,8 @@ namespace SharpPcap.LibPcap
                                                                                                     typeof(PcapUnmanagedStructures.pcap_stat_windows));
 
                 // copy the values
-                this.ReceivedPackets = (uint)managedStat.ps_recv;
-                this.DroppedPackets = (uint)managedStat.ps_drop;
+                this.ReceivedPackets = (UInt32)managedStat.ps_recv;
+                this.DroppedPackets = (UInt32)managedStat.ps_drop;
 //                this.InterfaceDroppedPackets = (uint)managedStat.ps_ifdrop;
             }
 
@@ -119,10 +119,9 @@ namespace SharpPcap.LibPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        public override string ToString ()
+        public override String ToString ()
         {
-            return string.Format("[PcapStatistics: ReceivedPackets={0}, DroppedPackets={1}, InterfaceDroppedPackets={2}]",
-                                 ReceivedPackets, DroppedPackets, InterfaceDroppedPackets);
+            return String.Format("[PcapStatistics: ReceivedPackets={0}, DroppedPackets={1}, InterfaceDroppedPackets={2}]", this.ReceivedPackets, this.DroppedPackets, this.InterfaceDroppedPackets);
         }
     }
 }

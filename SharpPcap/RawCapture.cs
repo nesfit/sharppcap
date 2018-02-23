@@ -18,6 +18,7 @@ along with SharpPcap.  If not, see <http://www.gnu.org/licenses/>.
  * Copyright 2011 Chris Morgan <chmorgan@gmail.com>
  */
 
+using System;
 using PacketDotNet;
 
 namespace SharpPcap
@@ -50,7 +51,7 @@ namespace SharpPcap
         /// Data as a class field vs. a virtual property improves performance
         /// significantly. ~2.5% when parsing the packet with Packet.Net and
         /// ~20% when reading each byte of the packet
-        public byte[] Data;
+        public Byte[] Data;
 
         /// <summary>
         /// Constructor
@@ -66,7 +67,7 @@ namespace SharpPcap
         /// </param>
         public RawCapture(LinkLayers LinkLayerType,
                           PosixTimeval Timeval,
-                          byte[] Data)
+                          Byte[] Data)
         {
             this.LinkLayerType = LinkLayerType;
             this.Timeval = Timeval;
@@ -74,14 +75,12 @@ namespace SharpPcap
         }
 
         /// <summary>Output this packet as a readable string</summary>
-        public override System.String ToString()
+        public override String ToString()
         {
             var buffer = new System.Text.StringBuilder();
 
             // build the output string
-            buffer.AppendFormat("[RawCapture: LinkLayerType={0}, Timeval={1}]",
-                LinkLayerType,
-                Timeval);
+            buffer.AppendFormat("[RawCapture: LinkLayerType={0}, Timeval={1}]", this.LinkLayerType, this.Timeval);
 
             return buffer.ToString();
         }

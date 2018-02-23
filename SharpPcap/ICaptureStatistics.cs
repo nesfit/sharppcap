@@ -18,6 +18,8 @@ along with SharpPcap.  If not, see <http://www.gnu.org/licenses/>.
  * Copyright 2011 Chris Morgan <chmorgan@gmail.com>
  */
 
+using System;
+
 namespace SharpPcap
 {
     /// <summary>
@@ -28,16 +30,16 @@ namespace SharpPcap
         /// <value>
         /// Number of packets received
         /// </value>
-        uint ReceivedPackets { get; set; }
+        UInt32 ReceivedPackets { get; set; }
 
         /// <value>
         /// Number of packets dropped
         /// </value>
-        uint DroppedPackets { get; set; }
+        UInt32 DroppedPackets { get; set; }
 
         /// <value>
         /// Number of interface dropped packets
         /// </value>
-        uint InterfaceDroppedPackets { get; set; }
+        UInt32 InterfaceDroppedPackets { get; set; }
     }
 }

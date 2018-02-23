@@ -30,7 +30,7 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Number of bytes in a wep key
         /// </summary>
-        public const int WepKeyMaxSize = 32;
+        public const Int32 WepKeyMaxSize = 32;
 
         /// <summary>
         /// Type of key, can be on of: \ref AIRPCAP_KEYTYPE_WEP, \ref AIRPCAP_KEYTYPE_TKIP, \ref AIRPCAP_KEYTYPE_CCMP. Only AIRPCAP_KEYTYPE_WEP is supported by the driver at the moment.
@@ -40,14 +40,14 @@ namespace SharpPcap.AirPcap
         /// <summary>
         /// Key data
         /// </summary>
-        public byte[] Data;
+        public Byte[] Data;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="Type"></param>
         /// <param name="Data"></param>
-        public AirPcapKey(AirPcapKeyType Type, byte[] Data)
+        public AirPcapKey(AirPcapKeyType Type, Byte[] Data)
         {
             this.Type = Type;
             this.Data = Data;
@@ -55,10 +55,10 @@ namespace SharpPcap.AirPcap
 
         internal AirPcapKey(AirPcapUnmanagedStructures.AirpcapKey key)
         {
-            Type = key.KeyType;
+            this.Type = key.KeyType;
 
-            Data = new byte[key.KeyData.Length];
-            Array.Copy(key.KeyData, Data, Data.Length);
+            this.Data = new Byte[key.KeyData.Length];
+            Array.Copy(key.KeyData, this.Data, this.Data.Length);
         }
 
         /// <summary>
@@ -67,10 +67,9 @@ namespace SharpPcap.AirPcap
         /// <returns>
         /// A <see cref="System.String"/>
         /// </returns>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("[AirPcapKey Type: {0}, Data.Length: {1}]",
-                                Type, Data.Length);
+            return String.Format("[AirPcapKey Type: {0}, Data.Length: {1}]", this.Type, this.Data.Length);
         }
     }
 }
