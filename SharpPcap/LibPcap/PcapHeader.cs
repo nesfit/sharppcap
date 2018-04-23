@@ -130,18 +130,19 @@ namespace SharpPcap.LibPcap
         {
             IntPtr hdrPtr;
 
-            if(!isWindows)
+            if (!isWindows)
             {
                 // setup the structure to marshal
                 var pkthdr = new PcapUnmanagedStructures.pcap_pkthdr_unix();
                 pkthdr.caplen = this.CaptureLength;
                 pkthdr.len = this.PacketLength;
-                pkthdr.ts.tv_sec = (IntPtr)this.Seconds;
-                pkthdr.ts.tv_usec = (IntPtr)this.MicroSeconds;
+                pkthdr.ts.tv_sec = this.Seconds;
+                pkthdr.ts.tv_usec = this.MicroSeconds;
 
                 hdrPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(PcapUnmanagedStructures.pcap_pkthdr_unix)));
-                Marshal.StructureToPtr(pkthdr, hdrPtr, true);                
-            } else
+                Marshal.StructureToPtr(pkthdr, hdrPtr, true);
+            }
+            else
             {
                 var pkthdr = new PcapUnmanagedStructures.pcap_pkthdr_windows();
                 pkthdr.caplen = this.CaptureLength;

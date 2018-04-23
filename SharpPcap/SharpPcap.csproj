@@ -1,64 +1,58 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net451</TargetFrameworks>
-	<TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)'=='net'">.NETFramework</TargetFrameworkIdentifier>
-    <TargetFrameworkIdentifier Condition="'$(_ShortFrameworkIdentifier)'=='netstandard'">.NETStandard</TargetFrameworkIdentifier>
-	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Description>A packet capture framework for .NET</Description>
     <Authors>Chris Morgan (chmorgan@gmail.com)</Authors>
     <Version>4.4.1</Version>
-    <Company></Company>
+    <Company>
+    </Company>
     <Product>SharpPcap</Product>
     <Copyright>Tamir Gal, Chris Morgan and others</Copyright>
     <PackageProjectUrl>https://github.com/chmorgan/sharppcap</PackageProjectUrl>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath></OutputPath>
+    <OutputPath>
+    </OutputPath>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath></OutputPath>
+    <OutputPath>
+    </OutputPath>
     <DefineConstants>TRACE;NETSTANDARD2_0;RELEASE;</DefineConstants>
   </PropertyGroup>
-  
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath></OutputPath>
+    <OutputPath>
+    </OutputPath>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath></OutputPath>
+    <OutputPath>
+    </OutputPath>
     <DefineConstants>TRACE;NETSTANDARD2_0;RELEASE;</DefineConstants>
   </PropertyGroup>
-  
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <OutputPath>
+    </OutputPath>
+    <NoWarn>NU1605</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="App.ico" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="App.ico" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Libs\packetnet\PacketDotNet.Interface\PacketDotNet.Interface.csproj" />
     <ProjectReference Include="..\Libs\packetnet\PacketDotNet\PacketDotNet.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -85,14 +79,10 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <Version>2.0.0</Version>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0">
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
-      <Version>2.0.0</Version>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0">
     </PackageReference>
   </ItemGroup>
-
 </Project>
